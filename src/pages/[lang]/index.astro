@@ -1,0 +1,189 @@
+---
+import { LOCALES, useTranslations, type Lang } from "@/i18n";
+import Layout from "@/layouts/Base.astro";
+const t = useTranslations(Astro.currentLocale as Lang);
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+import heroImageEn from "@/assets/en/hero.svg";
+import heroImagePt from "@/assets/pt/hero.svg";
+import { Image } from "astro:assets";
+
+const locale = Astro.currentLocale as Lang;
+
+export const getStaticPaths = () =>
+	Object.keys(LOCALES).map((lang) => ({
+		params: { lang },
+	}));
+---
+
+<Layout>
+  <Image
+    src={locale === 'pt' ? heroImagePt : heroImageEn}
+    alt={t({
+  
+      en: "Hello",
+      pt: "Olá",
+
+    })}
+    loading="eager"
+  />
+
+  <p>
+    <em>
+      {
+        t({
+   
+          en: "i18n Starter is a simple Astro theme for creating multilingual websites. It supports i18n feature from Astro v4.0.",
+          pt: "O i18n Starter é um tema Astro simples para criar sites multilíngues. Ele suporta a funcionalidade i18n do Astro v4.0.",
+         
+        })
+      }
+    </em>
+  </p>
+
+  <p>
+    <a
+      href={`https://docs.astro.build/${locale}/guides/internationalization/`}
+      target="_blank"
+    >
+      Internationalization (i18n) Routing | Astro Docs
+      <span class="material-icons-sharp dir">open_in_new</span>
+    </a>
+  </p>
+
+  <p>
+    {
+      t({
+        en: "Basically, only the subdirectory URL scheme is supported. It is managed by the URL as follows for each language. The root URL is redirected to the specified default language.",
+        pt: "Basicamente, apenas o esquema de URL de subdiretório é suportado. Ele é gerenciado pela URL da seguinte forma para cada idioma. A URL raiz é redirecionada para o idioma padrão especificado.",
+      })
+    }
+  </p>
+
+  <ul>
+    <li>example.com/en/</li>
+    <li>example.com/pt/</li>
+  </ul>
+
+  <h2>
+    {
+      t({
+        en: "Feature",
+        pt: "Recursos",
+      })
+    }
+  </h2>
+
+  <ul>
+    <li>
+      {
+        t({
+          en: "support for Astro's official i18n feature",
+         pt: "suporte para a funcionalidade i18n oficial do Astro",
+        })
+      }
+    </li>
+    <li>
+      {
+        t({
+          en: "Various management methods for multilingual pages",
+          pt: "Vários métodos de gerenciamento para páginas multilíngues",  
+        })
+      }
+    </li>
+    <li>Vanilla CSS</li>
+    <li>
+      {
+        t({
+          en: "SEO friendly",
+          pt: "Amigável para SEO",
+        })
+      }
+    </li>
+    <li>
+      {
+        t({
+          en: "100/100 Lighthouse performance",
+          pt: "Desempenho 100/100 Lighthouse",
+        })
+      }
+    </li>
+  </ul>
+
+  <h2>
+    {
+      t({
+        en: "Getting Started",
+        pt: "Começando",
+      })
+    }
+  </h2>
+
+  <p>
+    {
+      t({
+        en: "Assumes basic knowledge of Astro.",
+        pt: "Pressupõe conhecimento básico de Astro.",
+      })
+    }
+  </p>
+
+  <p>
+    <a href="https://docs.astro.build/" target="_blank">
+      https://docs.astro.build/
+      <span class="material-icons-sharp dir">open_in_new</span>
+    </a>
+  </p>
+
+  <p>
+    {
+      t({
+        en: "If you're okay, let's get started!",
+        pt: "Se você estiver pronto, vamos começar!",
+      })
+    }
+  </p>
+
+  <p>
+    <a href={getRelativeLocaleUrl(locale, "setup")} class="start">
+      <span class="material-icons-sharp dir">arrow_forward</span>
+      {
+        t({
+          en: "Start Setup",
+          pt: "Iniciar Configuração",
+        })
+      }
+    </a>
+  </p>
+</Layout>
+
+<style>
+  ul {
+    margin-block-start: var(--sp-s);
+    list-style: disc;
+    padding-inline-start: 1em;
+  }
+
+  h2 {
+    color: var(--color-theme);
+    margin-block-start: var(--sp-l);
+  }
+
+  em {
+    display: block;
+    font-style: normal;
+    font-size: 1.3em;
+    margin-block-end: var(--sp-m);
+  }
+
+  .start {
+    display: block;
+    width: fit-content;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    background: var(--color-main);
+    color: var(--color-base);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+</style>
