@@ -5,6 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import LocaleHtmlHead from "@/components/i18n/LocaleHtmlHead.astro";
 import LocaleSuggest from "@/components/i18n/LocaleSuggest.astro";
+import SideBar from "@/components/sidebar/SideBar.astro";
 
 import { SITE_TITLE, SITE_DESCRIPTION, X_ACCOUNT } from "@/consts";
 import { useTranslations, LOCALES, getLocalePaths, type Lang } from "@/i18n";
@@ -12,14 +13,18 @@ const t = useTranslations(Astro.currentLocale as Lang);
 import "@/styles/global.css";
 
 interface Props {
-  title?: string;
-  description?: string;
-  frontmatter?: undefined;
+	title?: string;
+	description?: string;
+	frontmatter?: undefined;
+	sideBarActiveItemID: string;
+	includeSidebar?: boolean;
 }
 
 const {
-  title,
-  description,
+	title,
+	description,
+	sideBarActiveItemID,
+	includeSidebar = true,
 } = Astro.props.frontmatter || Astro.props;
 
 const locale = Astro.currentLocale as Lang;
@@ -83,14 +88,46 @@ const localeDescription = description || t(SITE_DESCRIPTION);
 
   <body>
     <LocaleSuggest />
-    <Header />
 
-    <main class="l-main l-content">
-      <slot />
-    </main>
-
-    <Footer />
+    <div class="bg-base-100 drawer lg:drawer-open">
+      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content bg-base-100">
+        <Header title={SITE_TITLE} />
+        <div class="md:flex md:justify-center">
+          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">
+            <slot />
+          </main>
+        </div>
+        <Footer />
+      </div>
+      {  <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
+    </div>
 
     { import.meta.env.DEV && <style>:root { scroll-behavior: auto }</style> }
   </body>
 </html>
+
+
+<!-- 
+<!doctype html>
+<html lang="en" data-theme="lofi">
+  <head>
+    <BaseHead title={title} description={description} image={image} , ogType={ogType} />
+    {TRANSITION_API && <ViewTransitions />}
+  </head>
+  <body>
+    <div class="bg-base-100 drawer lg:drawer-open">
+      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content bg-base-100">
+        <Header title={SITE_TITLE} />
+        <div class="md:flex md:justify-center">
+          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">
+            <slot />
+          </main>
+        </div>
+        <Footer />
+      </div>
+      {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
+    </div>
+  </body>
+</html> -->
