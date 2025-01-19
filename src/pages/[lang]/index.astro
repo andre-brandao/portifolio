@@ -4,9 +4,12 @@ import Layout from "@/layouts/Base.astro";
 const t = useTranslations(Astro.currentLocale as Lang);
 import { getRelativeLocaleUrl } from "astro:i18n";
 
+import HorizontalCard from "@/components/HorizontalCard.astro";
+
 import heroImageEn from "@/assets/en/hero.svg";
 import heroImagePt from "@/assets/pt/hero.svg";
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 
 const locale = Astro.currentLocale as Lang;
 
@@ -14,44 +17,37 @@ export const getStaticPaths = () =>
 	Object.keys(LOCALES).map((lang) => ({
 		params: { lang },
 	}));
+
+const projects = (await getCollection("blog"))
+	.filter((post) => post.slug.split("/")[0] === locale)
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+	.slice(0, 3);
 ---
 
 <Layout>
-  <Image
-    src={locale === 'pt' ? heroImagePt : heroImageEn}
+  <!-- <Image
+    src={locale === "pt" ? heroImagePt : heroImageEn}
     alt={t({
-  
       en: "Hello",
       pt: "Olá",
-
     })}
     loading="eager"
-  />
+  /> -->
 
   <p>
     <em>
       {
         t({
-   
-          en: "i18n Starter is a simple Astro theme for creating multilingual websites. It supports i18n feature from Astro v4.0.",
-          pt: "O i18n Starter é um tema Astro simples para criar sites multilíngues. Ele suporta a funcionalidade i18n do Astro v4.0.",
-         
+          en: "Welcome to my portfolio! Here you will find a little more about me and my projects.",
+          pt: "Seja bem vindo ao meu portfolio! Aqui você vai encontrar um pouco mais sobre mim e meus projetos. ",
         })
       }
     </em>
   </p>
 
-  <p>
-    <a
-      href={`https://docs.astro.build/${locale}/guides/internationalization/`}
-      target="_blank"
-    >
-      Internationalization (i18n) Routing | Astro Docs
-      <span class="material-icons-sharp dir">open_in_new</span>
-    </a>
-  </p>
 
-  <p>
+
+  <!-- <p>
     {
       t({
         en: "Basically, only the subdirectory URL scheme is supported. It is managed by the URL as follows for each language. The root URL is redirected to the specified default language.",
@@ -79,7 +75,7 @@ export const getStaticPaths = () =>
       {
         t({
           en: "support for Astro's official i18n feature",
-         pt: "suporte para a funcionalidade i18n oficial do Astro",
+          pt: "suporte para a funcionalidade i18n oficial do Astro",
         })
       }
     </li>
@@ -87,7 +83,7 @@ export const getStaticPaths = () =>
       {
         t({
           en: "Various management methods for multilingual pages",
-          pt: "Vários métodos de gerenciamento para páginas multilíngues",  
+          pt: "Vários métodos de gerenciamento para páginas multilíngues",
         })
       }
     </li>
@@ -129,7 +125,10 @@ export const getStaticPaths = () =>
   </p>
 
   <p>
-    <a href="https://docs.astro.build/" target="_blank">
+    <a
+      href="https://docs.astro.build/"
+      target="_blank"
+    >
       https://docs.astro.build/
       <span class="material-icons-sharp dir">open_in_new</span>
     </a>
@@ -145,7 +144,10 @@ export const getStaticPaths = () =>
   </p>
 
   <p>
-    <a href={getRelativeLocaleUrl(locale, "setup")} class="start">
+    <a
+      href={getRelativeLocaleUrl(locale, "setup")}
+      class="start"
+    >
       <span class="material-icons-sharp dir">arrow_forward</span>
       {
         t({
@@ -154,7 +156,27 @@ export const getStaticPaths = () =>
         })
       }
     </a>
-  </p>
+  </p> -->
+
+
+  <div>
+    {
+      projects.map((post) => {
+        const [, ...slug] = post.slug.split("/");
+        return (
+       <HorizontalCard
+          title={post.data.title}
+          date={post.data.date}
+          img={post.data.cover}
+          slug={slug.join("/")}
+          desc={post.data.description}
+          url={`/${locale}/blog/${slug.join("/")}/`}
+        
+        />
+        );
+      })
+    }
+  </div>
 </Layout>
 
 <style>

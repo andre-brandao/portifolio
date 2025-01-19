@@ -1,6 +1,7 @@
 /* define the layout and structure of the entire page */
 
-.l-header {}
+.l-header {
+}
 
 .l-main {
   margin-block-start: var(--sp-l);

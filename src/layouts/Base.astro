@@ -7,6 +7,8 @@ import LocaleHtmlHead from "@/components/i18n/LocaleHtmlHead.astro";
 import LocaleSuggest from "@/components/i18n/LocaleSuggest.astro";
 import SideBar from "@/components/sidebar/SideBar.astro";
 
+import { ViewTransitions } from "astro:transitions";
+
 import { SITE_TITLE, SITE_DESCRIPTION, X_ACCOUNT } from "@/consts";
 import { useTranslations, LOCALES, getLocalePaths, type Lang } from "@/i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
@@ -16,16 +18,9 @@ interface Props {
 	title?: string;
 	description?: string;
 	frontmatter?: undefined;
-	sideBarActiveItemID: string;
-	includeSidebar?: boolean;
 }
 
-const {
-	title,
-	description,
-	sideBarActiveItemID,
-	includeSidebar = true,
-} = Astro.props.frontmatter || Astro.props;
+const { title, description } = Astro.props.frontmatter || Astro.props;
 
 const locale = Astro.currentLocale as Lang;
 const localeTitle = title ? `${title} - ${t(SITE_TITLE)}` : t(SITE_TITLE);
@@ -84,6 +79,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp&display=swap" media="print" onload={`this.media='all'`} />
 
     <LocaleHtmlHead />
+    <ViewTransitions />
   </head>
 
   <body>
@@ -100,7 +96,7 @@ const localeDescription = description || t(SITE_DESCRIPTION);
         </div>
         <Footer />
       </div>
-      {  <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
+      {  <SideBar  />}
     </div>
 
     { import.meta.env.DEV && <style>:root { scroll-behavior: auto }</style> }

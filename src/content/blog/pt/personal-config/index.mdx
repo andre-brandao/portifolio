@@ -1,0 +1,127 @@
+---
+title: 'Personal Config'
+description: 'Configurações do meu linux'
+date: 2025-01-01
+cover: "./cover.png"
+---
+
+Aqui, vou compartilhar como personalizei meu sistema usando flakes e home-manager. Minha configuração é adaptada às minhas necessidades como desenvolvedor full stack, garantindo funcionalidade e apelo estético.
+
+
+
+
+## Variaveis de configuração disponiveis no flake
+
+```nix
+# ---- SYSTEM SETTINGS ---- #
+systemSettings = {
+  system = "x86_64-linux"; # system arch
+  hostname = "nixos"; # hostname
+  profile = "xps"; # select a host defined from hosts directory
+  timezone = "America/Sao_Paulo"; # select timezone
+  language = "en_US.UTF-8"; # select language
+  locale = "pt_BR.UTF-8"; # select locale
+  plymouthTheme = "lone"; # bootloader theme
+};
+```
+```nix
+# ----- USER SETTINGS ----- #
+userSettings = {
+  username = "andre"; # username
+  git-user = "andre-brandao";
+  name = "Andre Brandao"; # name/identifier
+  email = "82166576+andre-brandao@users.noreply.github.com";
+  configDir = "/home/${userSettings.username}/dotfiles/nixos"; # absolute path of the local repo
+  theme = "gigavolt"; # selected theme from my themes directory (./themes/)
+  wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/desk-env/ and ./system/desk-env/
+  browser = "brave";
+  term = "alacritty"; # Default terminal command;
+  font = "JetBrains Mono"; # Selected font
+  fontPkg = pkgs.jetbrains-mono; # Font package
+  editor = "codium"; # Default editor;
+};
+```
+
+
+
+## Stylix
+
+Stlix é um modulo que permite alterarmos as cores e estilos globalmente na nossa configuração, assim diversos aplicativos como vscode, chromium, gtk, qt entre outros mantém um tema comum
+
+### ashes
+![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/ashes.png?raw=true)
+
+### stella
+![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/stella.png?raw=true)
+
+### emil
+![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/emil.png?raw=true)
+
+### fairy-floss
+![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/fairy-floss.png?raw=true)
+
+### gigavolt
+![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/gigavolt.png?raw=true)
+
+Você irá encontrar diversos outros temas na pasta de themes do repositório.
+
+## Basic Flake Comands
+
+### To rebuild home-manager, use the following command in the config directory:
+
+```bash
+home-manager switch --flake .#user
+```
+
+or the alias from anywhere:
+
+```bash
+sys-update
+```
+
+### To rebuild the system, use the following command in the config directory:
+
+```bash
+sudo nixos-rebuild switch --flake .#system
+```
+
+or the alias from anywhere:
+
+```bash
+user-update
+```
+
+
+
+## Desktops disponiveis
+
+- Hyprland (current)
+- GNOME
+- QTile (just a simple config, no stylix)
+
+
+Escolha seu desktop de acordo com um disponivel nas pastas desk-env
+
+
+## File Strucure
+
+```bash
+profiles
+|  personal
+|  |  hardware-configurantion.nix # CHANGE THIS!!
+system
+|  app # System aplications
+|  config # Common system configs
+|  style # Stylix settings
+|  desk-env # GNOME and hyprland
+user
+|  app  # User aplications
+|  |  editor # nvim and helix
+|  |  git
+|  |  terminal # kitty and alacritty
+|  shell # Shell config (tmux + zsh + cli tools)
+|  lang # Programing languages
+|  desk-env # IN PROGRESS
+themes # Base16 colors
+flake.nix
+```
