@@ -8,7 +8,7 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<header>
+<header class="bg-primary bg-opacity-65 text-primary-content-content">
   <h1>{title}</h1>
   <slot />
 </header>
@@ -21,8 +21,6 @@ const { title } = Astro.props;
     padding-inline: var(--sp-s);
     text-align: center;
     border-radius: 16px;
-    color: var(--color-theme);
-    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
     @media (width < 768px) {
       margin-inline: calc(50% - 50vw);
       border-radius: 0;

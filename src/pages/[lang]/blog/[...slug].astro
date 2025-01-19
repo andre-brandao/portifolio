@@ -26,8 +26,8 @@ const title = post.data.title;
     )
   }
 
-  <header>
-    <h1>{title}</h1>
+  <header class="border-b-2 border-primary pb-8 text-center">
+    <h1 class="text-primary text-3xl">{title}</h1>
     <time datetime={post.data.date.toISOString()}>
       {post.data.date.toLocaleDateString(lang)}
     </time>
@@ -37,15 +37,6 @@ const title = post.data.title;
 </Layout>
 
 <style>
-  header {
-    text-align: center;
-    border-block-end: 1px solid var(--color-theme);
-    padding-block-end: var(--sp-m);
-    h1 {
-      color: var(--color-theme);
-      font-size: 1.8rem;
-    }
-  }
   .cover {
     border-radius: 16px;
     margin: 0;

@@ -5,6 +5,8 @@ import { Image } from "astro:assets";
 import { getCollection, getEntries } from "astro:content";
 import PageHeadline from "@/components/PageHeadline.astro";
 
+import Card from "@/components/VerticalCard.astro";
+
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
@@ -13,8 +15,8 @@ const posts = (await getCollection("blog"))
 	.sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 
 const title = t({
-	en: "Blog",
-	pt: "Blog",
+	en: "Projects",
+	pt: "Projetos",
 });
 
 export const getStaticPaths = () =>
@@ -35,29 +37,27 @@ export const getStaticPaths = () =>
     }
   </p>
 
-  <p>
-    <a
-      href={`https://docs.astro.build/${Astro.currentLocale}/guides/content-collections/`}
-      target="_blank"
-    >
-      Content Collection | Astro Docs
-      <span class="material-icons-sharp dir"> open_in_new </span>
-    </a>
-  </p>
-
   <ul>
     {
       posts.map((post) => {
         const [, ...slug] = post.slug.split("/");
         return (
-          <li>
-            <a href={`/${locale}/blog/${slug.join("/")}/`}>
-              {post.data.cover && (
-                <Image src={post.data.cover} alt={post.data.title} />
-              )}
-              <h2>{post.data.title}</h2>
-            </a>
-          </li>
+          // <li>
+          //   <a href={`/${locale}/blog/${slug.join("/")}/`}>
+          //     {post.data.cover && (
+          //       <Image src={post.data.cover} alt={post.data.title} />
+          //     )}
+          //     <h2>{post.data.title}</h2>
+          //   </a>
+          // </li>
+          <Card
+            title={post.data.title}
+            img={post.data.cover}
+            desc={post.data.description}
+            href={`/${locale}/blog/${slug.join("/")}/`}
+            date={post.data.date}
+            
+          />
         );
       })
     }

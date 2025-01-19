@@ -1,6 +1,6 @@
 ---
 const { sideBarActiveItemID } = Astro.props;
-const activeClass = "active"; // For primary color replace with `active` class
+const activeClass = "bg-primary text-primary-content"; // For primary color replace with `active` class
 // Header & Navigation UI displayed on each page.
 
 import LocaleSelect from "@/components/i18n/LocaleSelectSingle.astro";
@@ -14,27 +14,14 @@ import AstroImage from "@/assets/astro-logo.svg";
 const locale = Astro.currentLocale as Lang;
 
 const isActive = (path: string) =>
-	getRelativeLocaleUrl(locale, path) === Astro.url.pathname;
+  getRelativeLocaleUrl(locale, path) === Astro.url.pathname;
 ---
 
 <ul class="menu grow shrink menu-md overflow-y-auto space-y-2">
-  <!-- <li><a class="py-3 text-base" id="home" href="/">Home</a></li>
-    <li><a class="py-3 text-base" id="projects" href="/projects">Projetos</a></li>
-    <li><a class="py-3 text-base" id="blog" href="/blog/">Blog</a></li>
-    <li><a class="py-3 text-base" id="cv" href="/cv">Currículo</a></li>
-    <li>
-        <a
-            class="py-3 text-base"
-            href="mailto:andredeoliveirabrandao@gmail.com"
-            target="_blank"
-            referrerpolicy="no-referrer-when-downgrade">Entrar em contato</a
-        >
-    </li> -->
   <li>
     <a
-
       href={getRelativeLocaleUrl(locale, "/")}
-      class={`text-base py-3 ${isActive("/") ? activeClass : ''}`}
+      class={`text-base py-3  ${isActive("/") ? activeClass : ""}`}
     >
       {t({ en: "Home", pt: "Início" })}
     </a>
@@ -42,92 +29,39 @@ const isActive = (path: string) =>
 
   <li>
     <a
-        href={getRelativeLocaleUrl(locale, "/projects")}
-        class={`text-base py-3 ${isActive("/projects") ? activeClass : ''}`}
+      href={getRelativeLocaleUrl(locale, "/cv")}
+      class={`text-base py-3 ${isActive("/cv") ? activeClass : ""}`}
     >
-    CV
+      CV
     </a>
   </li>
-
-
-
 
   <li>
     <a
       href={getRelativeLocaleUrl(locale, "/blog")}
       class=`text-base py-3 ${isActive("/blog") ? activeClass : ''}`
     >
-      {t({ en: "Posts", pt: "Posts" })}
+      {t({ en: "Projects", pt: "Projetos" })}
     </a>
   </li>
 
+  <li>
+    <a
+      class="py-3 text-base"
+      href="mailto:eu@andrebrandao.dev"
+      target="_blank"
+      referrerpolicy="no-referrer-when-downgrade"
+      >Entrar em contato</a
+    >
+  </li>
 
+  <!-- <li class="en-only">
+    <a
+      href={getRelativeLocaleUrl(locale, "/monolingual")}
+      class={isActive("/monolingual") ? "active" : null}
+    >
+      Monolingual
+    </a>
+  </li> -->
 
-  
-<ul>
-    <li>
-      <a
-        href={getRelativeLocaleUrl(locale, "/setup")}
-        class={isActive("/setup") ? "active" : null}
-      >
-        {t({ en: "Home", 
-        pt: "Início",
-
-          
-         })}
-      </a>
-    </li>
-
-    <li>
-      <a
-        href={getRelativeLocaleUrl(locale, "/page")}
-        class={isActive("/page") ? "active" : null}
-      >
-        {
-          t({
-            en: "Add Page",
-            ja: "ページの追加",
-            "zh-cn": "添加页面",
-            ar: "إضافة صفحة",
-          })
-        }
-      </a>
-    </li>
-
-    <li>
-      <a
-        href={getRelativeLocaleUrl(locale, "/feature")}
-        class={isActive("/feature") ? "active" : null}
-      >
-        {
-          t({
-            ja: "その他の機能",
-            en: "Features",
-            "zh-cn": "特性",
-            ar: "الميزات",
-          })
-        }
-      </a>
-    </li>
-
-    <li class="en-only">
-      <a
-        href={getRelativeLocaleUrl(locale, "/monolingual")}
-        class={isActive("/monolingual") ? "active" : null}
-      >
-        Monolingual
-      </a>
-    </li>
-
-
-    <li>
-      <a
-        href="https://github.com/andre-brandao"
-        target="_blank"
-      >
-        GitHub
-        <span class="material-icons-sharp dir">open_in_new</span>
-      </a>
-    </li>
-  </ul>
 </ul>

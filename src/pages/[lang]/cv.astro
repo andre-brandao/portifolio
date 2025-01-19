@@ -1,0 +1,166 @@
+---
+import Layout from "@/layouts/Base.astro";
+import TimeLineElement from "@/components/cv/TimeLine.astro";
+import { LOCALES, useTranslations, type Lang } from "@/i18n";
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+
+const t = useTranslations(Astro.currentLocale as Lang);
+---
+
+<Layout title="Resume">
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">
+      {
+        t({
+          en: "About Me",
+          pt: "Sobre mim",
+        })
+      }
+    </div>
+  </div>
+
+  <div class="mb-10 text-justify">
+    {
+      t({
+        en: ` My name is André, I am a Computer Science student with a background
+    in Software Engineering. I am currently in the 6th period, having acquired a 
+    solid foundation in fundamental programming concepts, as well as theoretical 
+    and practical knowledge. As a complement to my education, I completed an external 
+    150-hour course in SwiftUI, which expanded my experience in user interface 
+    development. Furthermore, I have English communication skills, acquired both 
+    through internet interaction experiences and an exchange program I did to Canada.`,
+        pt: `Meu nome é André, sou estudante de Ciência da Computação com formação
+    iniciada em Engenharia de Software. Atualmente estou cursando o 6º período,
+    tendo adquirido até então uma base sólida em conceitos fundamentais de
+    programação, além de conhecimentos teóricos e práticos. Como complemento à
+    minha formação, concluí um curso externo de 150 horas em SwiftUI, que
+    ampliou minha experiência em desenvolvimento de interfaces de usuário.
+    Ademais, possuo habilidades de comunicação em inglês, adquiridas tanto em
+    experiências de interação na internet, quanto em um intercâmbio que fiz para
+    o Canadá.`,
+      })
+    }
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">
+      {
+        t({
+          en: "Education",
+          pt: "Educação",
+        })
+      }
+    </div>
+  </div>
+
+  <div class="time-line-container grid gap-4 mb-10">
+    <TimeLineElement
+      title={t({
+        en: "Computer Science",
+        pt: "Ciência da Computação",
+      })}
+      subtitle="2022/2 to 2025(graduation) at PUC-MG, Belo Horizonte, Brasil"
+    />
+    <TimeLineElement
+      title={t({
+        en: "Software Engineering",
+        pt: "Engenharia de Software",
+      })}
+      subtitle="2021 to (transfer to CC) at PUC-MG, Belo Horizonte, Brasil"
+    />
+    <TimeLineElement
+      title="Ensino Médio"
+      subtitle="2018 to 2020 at Colegio Santo Agostinho, Nova Lima, Brasil"
+    />
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Experiência</div>
+  </div>
+
+  <div class="time-line-container mb-10">
+    <TimeLineElement
+      title="Full Stack Developer"
+      subtitle="From 03/2024 to current at Crossgeo, Belo Horizonte, Brasil"
+    >
+      Crossvirus foi uma startup criada com o apoio da PUC-MG, com o objetivo de
+      desenvolver soluções para o combate a doenças epidemiologicas como
+      COVID-19. Fui responsável por desenvolver o front-end e back-end da
+      aplicação, utilizando Astro, Svelte e PostgreSQL. Além disso fui
+      responsável por coordenar outros 2 projetos com a ajuda de 2 estagiários
+      disponibilizados pela PUC-MG.
+    </TimeLineElement>
+    <TimeLineElement
+      title="Developer"
+      subtitle="From [Start Date] to [End Date] at [Company], [City], [Country]"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident.
+    </TimeLineElement>
+    <TimeLineElement
+      title="Job Title at Project or Company Name"
+      subtitle="From [Start Date] to [End Date] at [Company], [City], [Country]"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident.
+    </TimeLineElement>
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Certificações</div>
+  </div>
+
+  <ul class="list-disc mx-6 mb-10 grid gap-2">
+    <li>
+      <a
+        href="#"
+        target="_blank"
+      >
+        Práticas de Cloud Services usando Swift com ênfase em Serviços
+        Cognitivos (100h) 04/2023</a
+      >
+    </li>
+    <li>
+      <a
+        href="#"
+        target="_blank"
+      >
+        Conceitos e Fundamentos: Algoritmos, POO com Swift, JavaScript e RESTful
+        APIs (60h) 02/2023</a
+      >
+    </li>
+    <p>
+      ** Também realizei diversos cursos online, que não possuem certificação,
+      mas que me ajudaram a adquirir conhecimento em diversas áreas, como:
+      Machine Learning, Desenvolvimento de APIs, Desenvolvimento de Aplicações
+      Web, entre outros.
+    </p>
+  </ul>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Habilidades</div>
+  </div>
+
+  <ul class="list-disc md:columns-5 columns-2 mx-6">
+    <li>SQL</li>
+    <li>Java</li>
+    <li>Python</li>
+    <li>Swift</li>
+    <li>HTML</li>
+    <li>Javascript</li>
+    <li>Nix</li>
+    <li>Linux</li>
+  </ul>
+</Layout>
