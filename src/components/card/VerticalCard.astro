@@ -1,13 +1,16 @@
 ---
-const { title, img, desc, href, badge, tags, target = "_blank" } = Astro.props;
 import { Image } from "astro:assets";
+import type { CardProps } from "./types";
+
+interface Props extends CardProps {}
+const { title, img, desc, href, badge, tags } = Astro.props;
 // const tag_url = `${url.split("/").slice(0, -1).join("/")}/tag`;
 ---
 
 <div
   class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
 >
-  <a href={href} target={target}>
+  <a href={href}>
     <div class="hero-content flex-col">
       {
         img && (
@@ -18,7 +21,7 @@ import { Image } from "astro:assets";
             format="webp"
             alt={title}
             class="max-w-full md:max-w-[13rem] rounded-lg"
-            transition:name={title}
+            transition:name={title + "image"}
           />
         )
       }

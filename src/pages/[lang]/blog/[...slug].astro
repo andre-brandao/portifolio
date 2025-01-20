@@ -22,12 +22,12 @@ const title = post.data.title;
 <Layout {title}>
   {
     post.data.cover && (
-      <Image src={post.data.cover} alt={post.data.title} class="cover" />
+      <Image src={post.data.cover} alt={post.data.title} class="cover"  transition:name={post.data.title + "image"}/>
     )
   }
 
   <header class="border-b-2 border-primary pb-8 text-center">
-    <h1 class="text-primary text-3xl">{title}</h1>
+    <h1 class="text-primary text-3xl" transition:name={post.data.title}>{title}</h1>
     <time datetime={post.data.date.toISOString()}>
       {post.data.date.toLocaleDateString(lang)}
     </time>

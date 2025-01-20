@@ -51,7 +51,14 @@ const isActive = (path: string) =>
       href="mailto:eu@andrebrandao.dev"
       target="_blank"
       referrerpolicy="no-referrer-when-downgrade"
-      >Entrar em contato</a
+      >
+      {
+        t({
+          en: "Get in Contact",
+          pt: "Entrar em Contato",
+        })
+      }
+      </a
     >
   </li>
 

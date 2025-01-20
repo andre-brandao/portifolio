@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 import { getCollection, getEntries } from "astro:content";
 import PageHeadline from "@/components/PageHeadline.astro";
 
-import Card from "@/components/VerticalCard.astro";
+import Card from "@/components/card/VerticalCard.astro";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
