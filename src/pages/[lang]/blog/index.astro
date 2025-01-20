@@ -12,7 +12,7 @@ const t = useTranslations(locale);
 
 const posts = (await getCollection("blog"))
   .filter((post) => post.slug.split("/")[0] === locale)
-  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const title = t({
   en: "Projects",
