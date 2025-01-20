@@ -14,14 +14,14 @@ import { getCollection } from "astro:content";
 const locale = Astro.currentLocale as Lang;
 
 export const getStaticPaths = () =>
-	Object.keys(LOCALES).map((lang) => ({
-		params: { lang },
-	}));
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
 
 const projects = (await getCollection("blog"))
-	.filter((post) => post.slug.split("/")[0] === locale)
-	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-	.slice(0, 3);
+  .filter((post) => post.slug.split("/")[0] === locale)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <Layout>
@@ -38,145 +38,84 @@ const projects = (await getCollection("blog"))
     <em>
       {
         t({
-          en: "Welcome to my portfolio! Here you will find a little more about me and my projects.",
-          pt: "Seja bem vindo ao meu portfolio! Aqui você vai encontrar um pouco mais sobre mim e meus projetos. ",
+          en: "Welcome to my personal portfolio! I'm André, a Full Stack Developer and Linux enthusiast, currently working at a company where I am a co-founder with a professor I had in college, serving as the lead developer on various projects for multiple clients.",
+          pt: "Bem-vindo ao meu portfólio pessoal! Sou André, um Desenvolvedor Full Stack e entusiasta de Linux, atualmente estou trabalhando em uma empresa onde sou co-fundador com um professor que tive na faculdade, atuando como o principal desenvolvedor em diversos projetos para diversos clientes.",
         })
       }
     </em>
   </p>
 
-
+  <!-- <p>
+    {
+      t({
+        en: "Here, you will find details about my professional journey, educational background, skills, and the projects I've worked on. Feel free to explore and learn more about how I can help bring your ideas to life. Let's build something amazing together!",
+        pt: "Aqui, você encontrará detalhes sobre minha trajetória profissional, formação educacional, habilidades e os projetos nos quais trabalhei. Fique à vontade para explorar e saber mais sobre como posso ajudar a transformar suas ideias em realidade. Vamos construir algo incrível juntos!",
+      })
+    }
+  </p> -->
 
   <!-- <p>
     {
       t({
-        en: "Basically, only the subdirectory URL scheme is supported. It is managed by the URL as follows for each language. The root URL is redirected to the specified default language.",
-        pt: "Basicamente, apenas o esquema de URL de subdiretório é suportado. Ele é gerenciado pela URL da seguinte forma para cada idioma. A URL raiz é redirecionada para o idioma padrão especificado.",
+        en: "currently completing my degree in Computer Science after beginning my academic journey in Software Engineering. ",
+        pt: "atualmente me formando em Ciência da Computação, após iniciar minha trajetória acadêmica em Engenharia de Software. ",
       })
     }
-  </p>
-
-  <ul>
-    <li>example.com/en/</li>
-    <li>example.com/pt/</li>
-  </ul>
-
-  <h2>
-    {
-      t({
-        en: "Feature",
-        pt: "Recursos",
-      })
-    }
-  </h2>
-
-  <ul>
-    <li>
-      {
-        t({
-          en: "support for Astro's official i18n feature",
-          pt: "suporte para a funcionalidade i18n oficial do Astro",
-        })
-      }
-    </li>
-    <li>
-      {
-        t({
-          en: "Various management methods for multilingual pages",
-          pt: "Vários métodos de gerenciamento para páginas multilíngues",
-        })
-      }
-    </li>
-    <li>Vanilla CSS</li>
-    <li>
-      {
-        t({
-          en: "SEO friendly",
-          pt: "Amigável para SEO",
-        })
-      }
-    </li>
-    <li>
-      {
-        t({
-          en: "100/100 Lighthouse performance",
-          pt: "Desempenho 100/100 Lighthouse",
-        })
-      }
-    </li>
-  </ul>
-
-  <h2>
-    {
-      t({
-        en: "Getting Started",
-        pt: "Começando",
-      })
-    }
-  </h2>
-
-  <p>
-    {
-      t({
-        en: "Assumes basic knowledge of Astro.",
-        pt: "Pressupõe conhecimento básico de Astro.",
-      })
-    }
-  </p>
-
-  <p>
-    <a
-      href="https://docs.astro.build/"
-      target="_blank"
-    >
-      https://docs.astro.build/
-      <span class="material-icons-sharp dir">open_in_new</span>
-    </a>
-  </p>
-
-  <p>
-    {
-      t({
-        en: "If you're okay, let's get started!",
-        pt: "Se você estiver pronto, vamos começar!",
-      })
-    }
-  </p>
-
-  <p>
-    <a
-      href={getRelativeLocaleUrl(locale, "setup")}
-      class="start"
-    >
-      <span class="material-icons-sharp dir">arrow_forward</span>
-      {
-        t({
-          en: "Start Setup",
-          pt: "Iniciar Configuração",
-        })
-      }
-    </a>
   </p> -->
 
+  <h2>
+    {
+      t({
+        en: "Some projects",
+        pt: "Alguns projetos",
+      })
+    }
+  </h2>
 
   <div class="grid grid-cols-1 gap-4">
     {
       projects.map((post) => {
         const [, ...slug] = post.slug.split("/");
         return (
-       <HorizontalCard
-          title={post.data.title}
-          date={post.data.date}
-          img={post.data.cover}
-          slug={slug.join("/")}
-          desc={post.data.description}
-          href={`/${locale}/blog/${slug.join("/")}/`}
-        
-        />
+          <HorizontalCard
+            title={post.data.title}
+            date={post.data.date}
+            img={post.data.cover}
+            slug={slug.join("/")}
+            desc={post.data.description}
+            href={`/${locale}/blog/${slug.join("/")}/`}
+          />
         );
       })
     }
   </div>
+  <center>
+    <a
+      href={getRelativeLocaleUrl(locale, "blog")}
+      class="btn btn-primary mt-3"
+      transition:name={t({
+        en: "Projects",
+        pt: "Projetos",
+      })}
+    >
+      <span class="material-icons-sharp dir">arrow_forward</span>
+      {
+        t({
+          en: "All projects",
+          pt: "Todos os projetos",
+        })
+      }
+    </a>
+
+    <a
+      href="https://github.com/andre-brandao"
+      target="_blank"
+      class="btn btn-primary mt-3"
+    >
+      <span class="material-icons-sharp dir">arrow_forward</span>
+      GitHub
+    </a>
+  </center>
 </Layout>
 
 <style>

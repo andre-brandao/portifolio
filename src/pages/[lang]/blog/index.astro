@@ -11,52 +11,48 @@ const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
 const posts = (await getCollection("blog"))
-	.filter((post) => post.slug.split("/")[0] === locale)
-	.sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+  .filter((post) => post.slug.split("/")[0] === locale)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 
 const title = t({
-	en: "Projects",
-	pt: "Projetos",
+  en: "Projects",
+  pt: "Projetos",
 });
 
 export const getStaticPaths = () =>
-	Object.keys(LOCALES).map((lang) => ({
-		params: { lang },
-	}));
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
 ---
 
 <Layout {title}>
   <PageHeadline {title} />
 
-  <p>
-    {
-      t({
-        en: "A sample for managing blog or news content. It uses Astro's content collection.",
-        pt: "Um exemplo para gerenciar conteúdo de blog ou notícias. Ele usa a coleção de conteúdo do Astro.",
-      })
-    }
-  </p>
+  <div>
+    <p>
+      {
+        t({
+          en: "Some projects that I developed over time. I participated or developed many other projects that are not listed here, some others are available on my",
+          pt: "Alguns projetos que desenvolvi ao longo do tempo. Participei ou desenvolvi muitos outros projetos que não estão listados aqui, alguns outros estão no meu",
+        })
+      }
+      
+      <a href="https://github.com/andre-brandao">GitHub</a>
+    </p>
+
+  </div>
 
   <ul>
     {
       posts.map((post) => {
         const [, ...slug] = post.slug.split("/");
         return (
-          // <li>
-          //   <a href={`/${locale}/blog/${slug.join("/")}/`}>
-          //     {post.data.cover && (
-          //       <Image src={post.data.cover} alt={post.data.title} />
-          //     )}
-          //     <h2>{post.data.title}</h2>
-          //   </a>
-          // </li>
           <Card
             title={post.data.title}
             img={post.data.cover}
             desc={post.data.description}
             href={`/${locale}/blog/${slug.join("/")}/`}
             date={post.data.date}
-            
           />
         );
       })
