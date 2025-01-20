@@ -4,7 +4,13 @@ export default {
   plugins: [require("daisyui")],
   daisyui: {
     logs: false,
-    themes: ["light", "dark", "cupcake"],
+    themes: [
+      "bumblebee",
+      {
+        dark: { ...require("daisyui/src/theming/themes")["dim"] },
 
+        // dark: { ...require("daisyui/src/theming/themes")["halloween"] },
+      },
+    ],
   },
 };

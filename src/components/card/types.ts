@@ -19,4 +19,5 @@ export interface CardProps extends Record<string, any> {
   desc: string;
   href: string;
   badge?: string;
+  tags?: string[];
 }

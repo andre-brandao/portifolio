@@ -53,6 +53,7 @@ export const getStaticPaths = () =>
             desc={post.data.description}
             href={`/${locale}/blog/${slug.join("/")}/`}
             date={post.data.date}
+            tags={post.data.tags}
           />
         );
       })

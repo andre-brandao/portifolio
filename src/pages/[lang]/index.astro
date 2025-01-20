@@ -84,6 +84,7 @@ const projects = (await getCollection("blog"))
             slug={slug.join("/")}
             desc={post.data.description}
             href={`/${locale}/blog/${slug.join("/")}/`}
+            tags={post.data.tags}
           />
         );
       })

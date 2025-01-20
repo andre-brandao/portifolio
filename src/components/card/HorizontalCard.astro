@@ -10,7 +10,7 @@ const { title, img, desc,  href, badge, tags, target = "_blank" } = Astro.props;
 ---
 
 <div
-  class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
+  class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%] hover:bg-opacity-65"
 >
   <a href={href}>
     <div class="hero-content flex-col md:flex-row">
@@ -33,16 +33,16 @@ const { title, img, desc,  href, badge, tags, target = "_blank" } = Astro.props;
           {badge && <div class="badge badge-secondary mx-2">{badge}</div>}
         </h1>
         <p class="py-1 text-1xl" transition:name={desc}>{desc}</p>
-        <!-- <div class="card-actions justify-end">
+        <div class="card-actions justify-end">
           {
             tags &&
               tags.map((tag) => (
-                <a href={`${tag_url}/${tag}`} class="badge badge-outline">
+                <p class="badge badge-outline">
                   {tag}
-                </a>
+                </p>
               ))
           }
-        </div> -->
+        </div>
       </div>
     </div>
   </a>
