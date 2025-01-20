@@ -27,6 +27,27 @@ const t = useTranslations(Astro.currentLocale as Lang);
     }
   </div>
 
+
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">
+      {t({ en: "Skills", pt: "Habilidades" })}
+    </div>
+  </div>
+
+  <ul class="list-disc md:columns-5 columns-2 mx-6">
+    <li>SQL</li>
+    <li>Java</li>
+    <li>C</li>
+    <li>Python</li>
+    <li>Swift</li>
+    <li>Go</li>
+    <li>HTML</li>
+    <li>TypeScript</li>
+    <li>Nix</li>
+    <li>Linux</li>
+  </ul>
+  
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">
       {t({ en: "Experience", pt: "Experiência" })}
@@ -136,22 +157,5 @@ const t = useTranslations(Astro.currentLocale as Lang);
     </p>
   </ul>
 
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">
-      {t({ en: "Skills", pt: "Habilidades" })}
-    </div>
-  </div>
 
-  <ul class="list-disc md:columns-5 columns-2 mx-6">
-    <li>SQL</li>
-    <li>Java</li>
-    <li>C</li>
-    <li>Python</li>
-    <li>Swift</li>
-    <li>Go</li>
-    <li>HTML</li>
-    <li>TypeScript</li>
-    <li>Nix</li>
-    <li>Linux</li>
-  </ul>
 </Layout>

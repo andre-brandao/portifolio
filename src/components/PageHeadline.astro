@@ -8,8 +8,8 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<header class="bg-primary bg-opacity-65 text-primary-content-content" transition:name={title}>
-  <h1>{title}</h1>
+<header class="bg-primary bg-opacity-65 text-primary-content" transition:name={title}>
+  <h1 class="text-4xl">{title}</h1>
   <slot />
 </header>
 
@@ -47,9 +47,9 @@ const { title } = Astro.props;
       clip-path: polygon(0 0, 100% 100%, 0 100%);
     }
 
-    h1 {
+    /* h1 {
       font-size: 1.6rem;
       letter-spacing: 0.05em;
-    }
+    } */
   }
 </style>
