@@ -1,127 +1,76 @@
 ---
-title: 'Personal Config'
+title: 'Meu Linux'
 description: 'Configurações do meu linux'
 date: 2025-01-01
 cover: "./cover.png"
 ---
 
-Aqui, vou compartilhar como personalizei meu sistema usando flakes e home-manager. Minha configuração é adaptada às minhas necessidades como desenvolvedor full stack, garantindo funcionalidade e apelo estético.
+## Introdução
+
+Eu cresci em Brumadinho interior de Minas Gerais, e não tive um computador pra chamar de meu, mas sempre fui apaichonado por `hackear` e `customizar` meus aparelhos, o primeiro celular que comprei foi um iPhone 5, e eu passei horas e horas customizando ele, e foi assim que eu descobri o jailbreak que me mostrou esse mundo de possibilidades.
+
+Quando entrei na faculdade, ganhei um otímo notebook da minha mãe que uso até hoje. Após experiencias frustantes com o Windows 11, eu decidi instalar o Linux Manjaro, e após algumas semanas de uso, eu percebi que nunca mais iria voltar para o Windows. Exclui a partição do Windows e instalei o Fedora como meu sistema principal pelo meu proximo semestre da faculdade.
 
 
+No semestre seguinte eu decidi experimentar algo novo, e foi ai que eu descobri o NixOS, um sistema operacional baseado em Nix, um gerenciador de pacotes funcional. E após a curva de aprendizado inicial, eu percebi que o NixOS era o sistema perfeito para mim, e eu nunca mais olhei para trás.
 
 
-## Variaveis de configuração disponiveis no flake
+## Nix
 
-```nix
-# ---- SYSTEM SETTINGS ---- #
-systemSettings = {
-  system = "x86_64-linux"; # system arch
-  hostname = "nixos"; # hostname
-  profile = "xps"; # select a host defined from hosts directory
-  timezone = "America/Sao_Paulo"; # select timezone
-  language = "en_US.UTF-8"; # select language
-  locale = "pt_BR.UTF-8"; # select locale
-  plymouthTheme = "lone"; # bootloader theme
-};
+Nix é um gerenciador de pacotes funcional, que permite a instalação de pacotes de forma isolada, e permite a criação de ambientes isolados para desenvolvimento, e o NixOS é um sistema operacional baseado em Nix, que permite a configuração do sistema de forma declarativa, e permite a criação de ambientes isolados para desenvolvimento.
+
+
+## Meu setup
+```bash
+andre@nixos
+-----------
+OS: NixOS 25.05 (Warbler) x86_64
+Host: XPS 13 9300
+Kernel: Linux 6.6.71
+Packages: 2442 (nix-system)
+Shell: zsh 5.9
+Display (SHP14CB): 1920x1200 @ 60 Hz in 13 [Built-in]
+WM: Hyprland 0.46.0 (Wayland)
+Theme: adw-gtk3 [GTK2/3/4]
+Font: JetBrains Mono (12pt) [GTK2/3/4]
+Cursor: Bibata-Modern-Classic (22px)
+Terminal: ghostty 1.0.2-ff9414d-nix
+Terminal Font: JetBrainsMono Nerd Font (13pt)
+CPU: Intel(R) Core(TM) i7-1065G7 (8) @ 3.90 GHz
+GPU: Intel Iris Plus Graphics G7 @ 1.10 GHz [Integrated]
+Memory: 10.45 GiB / 15.10 GiB (69%)
+Swap: 6.08 GiB / 8.80 GiB (69%)
+Disk (/): 435.81 GiB / 928.66 GiB (47%) - ext4
+Battery (DELL 2XXFW09): 69% [Charging, AC Connected]
+Locale: en_US.UTF-8
 ```
-```nix
-# ----- USER SETTINGS ----- #
-userSettings = {
-  username = "andre"; # username
-  git-user = "andre-brandao";
-  name = "Andre Brandao"; # name/identifier
-  email = "82166576+andre-brandao@users.noreply.github.com";
-  configDir = "/home/${userSettings.username}/dotfiles/nixos"; # absolute path of the local repo
-  theme = "gigavolt"; # selected theme from my themes directory (./themes/)
-  wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/desk-env/ and ./system/desk-env/
-  browser = "brave";
-  term = "alacritty"; # Default terminal command;
-  font = "JetBrains Mono"; # Selected font
-  fontPkg = pkgs.jetbrains-mono; # Font package
-  editor = "codium"; # Default editor;
-};
-```
+
+## Theming
+
+Para customizar as cores do sistema atravez de todos aplicativos estou usando o Stylix, um modulo que permite alterar as cores e estilos globalmente na nossa configuração, assim diversos aplicativos como vscode, chromium, gtk, qt entre outros mantém um tema comum.
+
+A base de temas é uma fork do base16.
 
 
-
-## Stylix
+### Stylix
 
 Stlix é um modulo que permite alterarmos as cores e estilos globalmente na nossa configuração, assim diversos aplicativos como vscode, chromium, gtk, qt entre outros mantém um tema comum
 
-### ashes
-![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/ashes.png?raw=true)
+### Minha Shell
 
-### stella
-![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/stella.png?raw=true)
+EU criei minha propria shell utilizando [ags](https://github.com/Aylur/ags) ela utiliza o mesmo repositorio de cores do Stylix, e permite a customização de cores e estilos de forma simples e rapida.
 
-### emil
-![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/emil.png?raw=true)
+A shell funciona em cima do Hyprland, um gerenciador de janelas baseado em Wayland, que permite a criação de workspaces dinamicos, e a organização de janelas de forma eficiente.
 
-### fairy-floss
-![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/fairy-floss.png?raw=true)
+Se quiser saber mais confira o repositorio no [github](https://github.com/andre-brandao/hyprshell)
 
-### gigavolt
-![Desktop](https://github.com/andre-brandao/nixos/blob/main/themes/.images/gigavolt.png?raw=true)
-
-Você irá encontrar diversos outros temas na pasta de themes do repositório.
-
-## Basic Flake Comands
-
-### To rebuild home-manager, use the following command in the config directory:
-
-```bash
-home-manager switch --flake .#user
-```
-
-or the alias from anywhere:
-
-```bash
-sys-update
-```
-
-### To rebuild the system, use the following command in the config directory:
-
-```bash
-sudo nixos-rebuild switch --flake .#system
-```
-
-or the alias from anywhere:
-
-```bash
-user-update
-```
+![Shell Theme](./theme.gif)
 
 
+## Other 
 
-## Desktops disponiveis
+Alem disso utilizo pyprland para a criacao de scratchpads que me permitem ter janelas flutuantes com comandos rapidos, e o pyprland para a criação de workspaces dinamicos.
 
-- Hyprland (current)
-- GNOME
-- QTile (just a simple config, no stylix)
+Muito util para acessar o terminal, WhatsApp, Spotify, e outros aplicativos rapidamente com apenas um butao.
 
-
-Escolha seu desktop de acordo com um disponivel nas pastas desk-env
-
-
-## File Strucure
-
-```bash
-profiles
-|  personal
-|  |  hardware-configurantion.nix # CHANGE THIS!!
-system
-|  app # System aplications
-|  config # Common system configs
-|  style # Stylix settings
-|  desk-env # GNOME and hyprland
-user
-|  app  # User aplications
-|  |  editor # nvim and helix
-|  |  git
-|  |  terminal # kitty and alacritty
-|  shell # Shell config (tmux + zsh + cli tools)
-|  lang # Programing languages
-|  desk-env # IN PROGRESS
-themes # Base16 colors
-flake.nix
-```
+![Scratchpad](./scratchpads.gif)
