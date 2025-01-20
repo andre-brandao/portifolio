@@ -12,6 +12,7 @@ const blog = defineCollection({
           message: "cover must be at least 600px wide",
         })
         .optional(),
+      tags: z.array(z.string()),
     }),
 });
 
