@@ -27,12 +27,6 @@ const localeTitle = title ? `${title} - ${t(SITE_TITLE)}` : t(SITE_TITLE);
 const localeDescription = description || t(SITE_DESCRIPTION);
 ---
 
-<!--
-
-  Source Code:
-  https://github.com/psephopaiktes/astro-i18n-starter
-
--->
 <html lang={LOCALES[locale].lang || locale} dir={LOCALES[locale].dir || null}>
   <head>
     <meta charset="UTF-8" />
