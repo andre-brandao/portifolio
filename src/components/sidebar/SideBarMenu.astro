@@ -47,19 +47,27 @@ const isActive = (path: string) =>
 
   <li>
     <a
+      href={getRelativeLocaleUrl(locale, "/travel")}
+      class=`text-base py-3 ${isActive("/travel") ? activeClass : ''}`
+    >
+      {t({ en: "Travel", pt: "Viagens" })}
+    </a>
+  </li>
+
+  <li>
+    <a
       class="py-3 text-base"
       href="mailto:eu@andrebrandao.dev"
       target="_blank"
       referrerpolicy="no-referrer-when-downgrade"
-      >
+    >
       {
         t({
           en: "Get in Contact",
           pt: "Entrar em Contato",
         })
       }
-      </a
-    >
+    </a>
   </li>
 
   <!-- <li class="en-only">
@@ -70,5 +78,4 @@ const isActive = (path: string) =>
       Monolingual
     </a>
   </li> -->
-
 </ul>
