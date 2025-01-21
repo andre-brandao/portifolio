@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "strictNullChecks": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@": ["src"]
     },
     "importHelpers": false
   },
