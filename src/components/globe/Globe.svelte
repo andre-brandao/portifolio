@@ -4,6 +4,8 @@
 
   // let mapContainer: HTMLDivElement | undefined;
 
+  let {} = $props()
+
   const visitedCountries = ["Brazil", "USA", "Canada", "Peru", "Chile"];
 
   function mount(mapContainer: HTMLDivElement) {
