@@ -1,5 +1,6 @@
 ---
 import Globe from "../../components/globe/Globe.svelte";
+import AstroGloble from "@/components/globe/Globe.astro";
 import { localeParams } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
 
@@ -17,7 +18,8 @@ export const getStaticPaths = () => localeParams;
 >
   <div class="container mx-auto w-full">
     <div class="h-[90vh] w-full">
-      <Globe client:load />
+      <!-- <Globe client:load /> -->
+      <AstroGloble />
     </div>
   </div>
 </Layout>
