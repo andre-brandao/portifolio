@@ -6,7 +6,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
+    "importHelpers": false
   },
-
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.svelte", "src/**/*.astro"],
 }
