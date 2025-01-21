@@ -1,11 +1,11 @@
 ---
-import { LOCALES, useTranslations, type Lang } from "@/i18n";
-import Layout from "@/layouts/Base.astro";
+import { LOCALES, useTranslations, type Lang } from "../../../i18n";
+import Layout from "../../../layouts/Base.astro";
 // import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import PageHeadline from "@/components/PageHeadline.astro";
+import PageHeadline from "../../../components/PageHeadline.astro";
 
-import Card from "@/components/card/VerticalCard.astro";
+import Card from "../../../components/card/VerticalCard.astro";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
