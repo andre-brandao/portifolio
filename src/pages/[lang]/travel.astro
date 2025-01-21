@@ -1,0 +1,25 @@
+---
+import Globe from "@/components/globe/Globe.svelte";
+import NotTranslateCaution from "@/components/i18n/NotTranslateCaution.astro";
+import { localeParams } from "@/i18n";
+import PageHeadline from "@/components/PageHeadline.astro";
+import Layout from "@/layouts/Base.astro";
+
+import { LOCALES, useTranslations, type Lang } from "@/i18n";
+const t = useTranslations(Astro.currentLocale as Lang);
+
+export const getStaticPaths = () => localeParams;
+---
+
+<Layout
+  title={t({
+    en: "Travel",
+    pt: "Viagens",
+  })}
+>
+  <div class="container mx-auto w-full">
+    <div class="h-[90vh] w-full">
+      <Globe client:load />
+    </div>
+  </div>
+</Layout>

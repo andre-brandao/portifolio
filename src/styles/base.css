@@ -88,11 +88,6 @@ button {
   }
 }
 
-svg,
-path {
-  fill: currentColor;
-  aspect-ratio: 1;
-}
 
 [class^="material-icons"] {
   vertical-align: middle;
