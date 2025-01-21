@@ -6,7 +6,7 @@
   "license": "MIT",
   "homepage": "https://andrebrandao.dev/",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "astro dev",
