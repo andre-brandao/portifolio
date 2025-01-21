@@ -8,7 +8,6 @@ tags:
   - Nix
 ---
 
-
 <details>
     <summary>Projeto Em Desenvolvimento</summary>
     Esse projeto está em constante evolução. Confira o repositório para mais detalhes. <a href="https://github.com/andre-brandao/nixos">GitHub</a>
@@ -22,12 +21,7 @@ Quando entrei na faculdade, minha mãe me deu um ótimo notebook, que uso até h
 
 No semestre seguinte, decidi experimentar algo novo e foi aí que descobri o NixOS, um sistema operacional baseado no gerenciador de pacotes funcional Nix. Após superar a curva inicial de aprendizado, percebi que o NixOS era o sistema perfeito para mim, e nunca mais olhei para trás.
 
-## Nix
 
-Nix é um gerenciador de pacotes funcional que permite a instalação de pacotes de forma isolada e a criação de ambientes de desenvolvimento separados. O NixOS, baseado em Nix, permite configurar o sistema de forma declarativa e criar ambientes isolados para desenvolvimento.
-
-
-## Meu setup
 ```bash
 andre@nixos
 -----------
@@ -51,8 +45,13 @@ Disk (/): 435.81 GiB / 928.66 GiB (47%) - ext4
 Battery (DELL 2XXFW09): 69% [Charging, AC Connected]
 Locale: en_US.UTF-8
 ```
+```
+## Nix
+
+Nix é um gerenciador de pacotes funcional que permite a instalação de pacotes de forma isolada e a criação de ambientes de desenvolvimento separados. O NixOS, baseado em Nix, permite configurar o sistema de forma declarativa e criar ambientes isolados para desenvolvimento.
 
 ## Theming
+
 Para customizar as cores do sistema em todos os aplicativos, estou usando o Stylix, um módulo que permite alterar cores e estilos globalmente na configuração. Assim, diversos aplicativos como VS Code, Chromium, GTK e QT mantêm um tema comum.
 
 ### Stylix
@@ -61,24 +60,26 @@ Stylix é um módulo que permite alterar cores e estilos globalmente na configur
 
 ### Minha Shell
 
-Eu criei minha propria shell utilizando [AGS](https://github.com/Aylur/ags). Ela utiliza o mesmo repositório de cores do Stylix e permite customizações rápidas e simples de cores e estilos.
+Eu criei minha própria shell utilizando [AGS](https://github.com/Aylur/ags). Ela utiliza o mesmo repositório de cores do Stylix e permite customizações rápidas e simples de cores e estilos.
 
 A shell funciona com o Hyprland, um gerenciador de janelas baseado em Wayland que permite a criação de workspaces dinâmicos e a organização eficiente de janelas.
 
 Confira o repositório no [GitHub](https://github.com/andre-brandao/hyprshell) para saber mais.
 
-
 ![Shell Theme](./theme.gif)
 
 
-## Scratchpads 
+## Scratchpads
 
-Alem disso utilizo pyprland para a criacao de scratchpads que me permitem ter janelas flutuantes com comandos rapidos, e o pyprland para a criação de workspaces dinamicos.
+Além disso, utilizo o Pyprland para a criação de scratchpads que me permitem ter janelas flutuantes com comandos rápidos, e o Pyprland para a criação de workspaces dinâmicos.
 
-Muito util para acessar o terminal, WhatsApp, Spotify, e outros aplicativos rapidamente com apenas um butao.
+Muito útil para acessar o terminal, WhatsApp, Spotify e outros aplicativos rapidamente com apenas um botão.
 
 ![Scratchpad](./scratchpads.gif)
 
 ## Nix Config
 
-Para mais detalhes acesse o [repositorio](https://github.com/andre-brandao/nixos)
+Para mais detalhes, acesse o [repositório](https://github.com/andre-brandao/nixos).
+
+TODO: finish this post
+```
