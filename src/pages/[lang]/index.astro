@@ -4,6 +4,9 @@ import Layout from "@/layouts/Base.astro";
 const t = useTranslations(Astro.currentLocale as Lang);
 import { getRelativeLocaleUrl } from "astro:i18n";
 
+import Globe from "@/components/globe/Globe.svelte";
+import Card2 from "@/components/card/v2/Card2.astro";
+
 import HorizontalCard from "@/components/card/HorizontalCard.astro";
 
 import heroImageEn from "@/assets/en/hero.svg";
@@ -45,6 +48,19 @@ const projects = (await getCollection("blog"))
     </em>
   </p>
 
+  <Card2
+    colSpan="md:col-span-1"
+    rowSpan="md:row-span-1"
+    title={t({
+      en: "Places I've visited",
+      pt: "Lugares que visitei",
+    })}
+    href="travel"
+  >
+    <div class="h-full w-full absolute inset-0 -z-10">
+      <Globe client:load />
+    </div>
+  </Card2>
   <!-- <p>
     {
       t({
@@ -118,34 +134,3 @@ const projects = (await getCollection("blog"))
     </a> -->
   </center>
 </Layout>
-
-<style>
-  ul {
-    margin-block-start: var(--sp-s);
-    list-style: disc;
-    padding-inline-start: 1em;
-  }
-
-  h2 {
-    color: var(--color-theme);
-    margin-block-start: var(--sp-l);
-  }
-
-  em {
-    display: block;
-    font-style: normal;
-    font-size: 1.3em;
-    margin-block-end: var(--sp-m);
-  }
-
-  .start {
-    display: block;
-    width: fit-content;
-    padding: 0.5em;
-    border-radius: 0.5em;
-    background: var(--color-main);
-    color: var(--color-base);
-    text-decoration: none;
-    letter-spacing: 0.05em;
-  }
-</style>
