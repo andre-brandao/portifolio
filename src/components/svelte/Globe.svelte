@@ -1,15 +1,15 @@
-<script lang="ts">
+<script>
   import * as d3 from "d3";
   import worldData from "../world.json";
   import { onMount } from "svelte";
-  let mapContainer: HTMLElement;
+  let mapContainer;
 
   let {} = $props();
   const visitedCountries = ["Brazil", "USA", "Canada", "Peru", "Chile"];
 
   console.log("mounting");
   onMount(() => mountGlobe(mapContainer));
-  const mountGlobe = (mapContainer: HTMLElement) => {
+  const mountGlobe = (mapContainer) => {
     const width = mapContainer.clientWidth;
     const height = 500;
     const sensitivity = 300;
@@ -50,7 +50,7 @@
       .data(worldData.features)
       .enter()
       .append("path")
-      .attr("d", (d) => pathGenerator(d as any))
+      .attr("d", (d) => pathGenerator(d))
       .attr("fill", (d) => {
         console.log(d.properties.name);
         return visitedCountries.includes(d.properties.name)
@@ -65,7 +65,7 @@
       const rotate = projection.rotate();
       const k = sensitivity / projection.scale();
       projection.rotate([rotate[0] - 1 * k, rotate[1]]);
-      svg.selectAll("path").attr("d", (d) => pathGenerator(d as any));
+      svg.selectAll("path").attr("d", (d) => pathGenerator(d));
     }, 200);
   };
 </script>
