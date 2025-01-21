@@ -51,9 +51,11 @@ const projects = (await getCollection("blog"))
   <Card2
     colSpan="md:col-span-1"
     rowSpan="md:row-span-1"
-    title="Countries I visited"
+    title={t({
+      en: "Places I've visited",
+      pt: "Lugares que visitei",
+    })}
     href="travel"
-    colorText="text-neutral-900"
   >
     <div class="h-full w-full absolute inset-0 -z-10">
       <Globe client:load />

@@ -12,13 +12,13 @@
 
     const width = mapContainer.clientWidth;
     const height = 500;
-    const sensitivity = 75;
+    const sensitivity = 300;
 
     let projection = d3
       .geoOrthographic()
       .scale(250)
       .center([0, 0])
-      .rotate([0, -30])
+      .rotate([150, -15])
       .translate([width / 2, height / 2]);
 
     const initialScale = projection.scale();
@@ -52,7 +52,7 @@
       .attr("fill", (d: { properties: { name: string } }) => {
         console.log(d.properties.name);
         return visitedCountries.includes(d.properties.name)
-          ? "#FF0000"
+          ? "green"
           : "#D3D3D3";
       })
       .style("stroke", "black")
