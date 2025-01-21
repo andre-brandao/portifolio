@@ -1,17 +1,20 @@
 <script lang="ts">
   import * as d3 from "d3";
-  import worldData from "./world.json";
+  import worldData from "../world.json";
+  import { onMount } from "svelte";
+  let mapContainer: HTMLElement;
 
-//   let mapContainer = document.getElementById("globe");
-
+  let {} = $props();
   const visitedCountries = ["Brazil", "USA", "Canada", "Peru", "Chile"];
 
   console.log("mounting");
-
+  onMount(() => mountGlobe(mapContainer));
   const mountGlobe = (mapContainer: HTMLElement) => {
     const width = mapContainer.clientWidth;
     const height = 500;
     const sensitivity = 300;
+
+    console.log("mounting globe");
 
     let projection = d3
       .geoOrthographic()
@@ -68,5 +71,8 @@
 </script>
 
 <div class="flex flex-col justify-center items-center w-full h-full">
-  <div class="w-full" use:mountGlobe></div>
+  <div
+    class="w-full"
+    bind:this={mapContainer}
+  ></div>
 </div>

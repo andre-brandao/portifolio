@@ -10,7 +10,22 @@ import svelte from "@astrojs/svelte";
 // https://astro.build/config
 export default defineConfig({
   site: "https://andrebrandao.dev",
-  integrations: [mdx(), sitemap(), tailwind(), svelte({ extensions: [".svelte"] })],
+  integrations: [
+    mdx(),
+    sitemap(),
+    tailwind(),
+    svelte({
+      extensions: [".svelte"],
+      include: ["**/svelte/*"],
+
+    }),
+  ],
+  vite : {
+    resolve: {
+      conditions: ['browser'],
+    },
+  
+  },
   i18n: {
     defaultLocale: "en",
     locales: ["en", "pt"],
