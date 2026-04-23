@@ -72,6 +72,7 @@ type LocalePath = {
  * @returns - The list of locale params
  * @see https://docs.astro.build/en/guides/routing/#dynamic-routes
  */
-export const localeParams = Object.keys(LOCALES).map((lang) => ({
-  params: { lang },
-}));
+export const localeParams = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));

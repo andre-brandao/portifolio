@@ -6,7 +6,7 @@ import Layout from "@/layouts/Base.astro";
 import {  useTranslations, type Lang } from "@/i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
 
-export const getStaticPaths = () => localeParams;
+export const getStaticPaths = localeParams;
 ---
 
 <Layout

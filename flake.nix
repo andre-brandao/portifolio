@@ -5,7 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       systems = [
         "x86_64-linux"
@@ -13,10 +14,11 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
-      forAllSystems = f:
-        nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
-    in {
-      devShells = forAllSystems (pkgs:
+      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
+    in
+    {
+      devShells = forAllSystems (
+        pkgs:
         let
           build-cv = pkgs.writeShellScriptBin "build-cv" ''
             set -euo pipefail
@@ -28,17 +30,19 @@
             install -m 0644 result/pt/cv.pdf public/pt/cv.pdf
             echo "Wrote public/en/cv.pdf and public/pt/cv.pdf"
           '';
-        in {
+        in
+        {
           default = pkgs.mkShell {
             packages = with pkgs; [
               git
-              nodejs_22
+              nodejs_24
               pnpm
               typescript
               build-cv
             ];
           };
-        });
+        }
+      );
 
       packages = forAllSystems (pkgs: {
         cv = pkgs.callPackage ./cv/default.nix { };
