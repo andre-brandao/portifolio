@@ -89,6 +89,13 @@ const navItems = [
   .site-header-avatar {
     width: 2.75rem;
     height: 2.75rem;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .site-header-avatar :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .site-header-name {
     font-size: 1.125rem;
