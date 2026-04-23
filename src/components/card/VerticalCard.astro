@@ -4,44 +4,151 @@ import type { CardProps } from "./types";
 
 interface Props extends CardProps {}
 const { title, img, desc, href, badge, tags } = Astro.props;
-// const tag_url = `${url.split("/").slice(0, -1).join("/")}/tag`;
 ---
 
-<div
-  class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%] hover:bg-base-200/65"
->
-  <a href={href}>
-    <div class="flex flex-col items-center gap-3 p-4">
-      {
-        img && (
+<a href={href} class="card-link">
+  <article class="card-v">
+    {
+      img && (
+        <div class="card-v-media">
           <Image
             src={img}
             width={750}
             height={422}
             format="webp"
             alt={title}
-            class="w-full max-w-[13rem] rounded-lg object-cover"
+            class="card-v-img"
             transition:name={title + "image"}
           />
+        </div>
+      )
+    }
+
+    <div class="card-v-body">
+      <header class="card-v-head">
+        <h3 class="card-v-title" transition:name={title}>
+          {title}
+        </h3>
+        {badge && <span class="card-v-badge">{badge}</span>}
+      </header>
+      <p class="card-v-desc" transition:name={desc}>{desc}</p>
+      {
+        tags && tags.length > 0 && (
+          <ul class="card-v-tags">
+            {tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
         )
       }
-      <div class="grow w-full text-center">
-        <h1 class="text-xl font-bold" transition:name={title}>
-          {title}
-          {badge && <div class="badge badge-secondary mx-2">{badge}</div>}
-        </h1>
-        <p class="py-1 text-1xl" transition:name={desc}>{desc}</p>
-        <div class="card-actions justify-center items-center">
-          {
-            tags &&
-              tags.map((tag) => (
-                <p  class="badge badge-outline">
-                  {tag}
-                </p>
-              ))
-          }
-        </div>
-      </div>
     </div>
-  </a>
-</div>
+  </article>
+</a>
+
+<style>
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+  .card-v {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: color-mix(
+      in oklab,
+      var(--color-base-200) 70%,
+      transparent
+    );
+    border: 1px solid
+      color-mix(in oklab, var(--color-base-content) 8%, transparent);
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .card-link:hover .card-v {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.4);
+    background-color: var(--color-base-200);
+  }
+  .card-v-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-base-300);
+  }
+  .card-v-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .card-link:hover .card-v-img {
+    transform: scale(1.04);
+  }
+  .card-v-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.1rem 1.1rem;
+    flex: 1;
+  }
+  .card-v-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .card-v-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .card-link:hover .card-v-title {
+    color: var(--color-primary);
+  }
+  .card-v-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    background-color: var(--color-secondary);
+    color: var(--color-secondary-content);
+  }
+  .card-v-desc {
+    margin: 0;
+    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
+    line-height: 1.5;
+    font-size: 0.9rem;
+    flex: 1;
+  }
+  .card-v-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .card-v-tags li {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    background-color: color-mix(
+      in oklab,
+      var(--color-base-300) 60%,
+      transparent
+    );
+    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
+    border: 1px solid
+      color-mix(in oklab, var(--color-base-content) 8%, transparent);
+  }
+</style>

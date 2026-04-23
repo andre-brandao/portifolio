@@ -1,9 +1,7 @@
 ---
 import { LOCALES, useTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
-// import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import PageHeadline from "@/components/PageHeadline.astro";
 
 import Card from "@/components/card/VerticalCard.astro";
 
@@ -26,35 +24,41 @@ export const getStaticPaths = () =>
 ---
 
 <Layout {title}>
-  <PageHeadline {title} />
-
-  <div>
-    <p>
+  <header class="page-head">
+    <p class="page-eyebrow">
+      {t({ en: "Work & experiments", pt: "Trabalhos & experimentos" })}
+    </p>
+    <h1 class="page-title" transition:name={title}>{title}</h1>
+    <p class="page-intro">
       {
         t({
-          en: "Some projects that I developed over time. I participated or developed many other projects that are not listed here, some others are available on my",
-          pt: "Alguns projetos que desenvolvi ao longo do tempo. Participei ou desenvolvi muitos outros projetos que não estão listados aqui, alguns outros estão no meu",
+          en: "A selection of things I've built over the years. Many others I've contributed to don't live here — some are on my",
+          pt: "Uma seleção de coisas que construí ao longo dos anos. Muitos outros nos quais contribuí não estão aqui, alguns estão no meu",
         })
       }
-      
-      <a href="https://github.com/andre-brandao">GitHub</a>
+      <a
+        href="https://github.com/andre-brandao"
+        target="_blank"
+        rel="noopener"
+        class="page-intro-link">GitHub</a
+      >.
     </p>
+  </header>
 
-  </div>
-
-  <ul>
+  <ul class="projects-list">
     {
       posts.map((post) => {
         const [, ...slug] = post.id.split("/");
         return (
-          <Card
-            title={post.data.title}
-            img={post.data.cover}
-            desc={post.data.description}
-            href={`/${locale}/blog/${slug.join("/")}/`}
-            date={post.data.date}
-            tags={post.data.tags}
-          />
+          <li>
+            <Card
+              title={post.data.title}
+              img={post.data.cover}
+              desc={post.data.description}
+              href={`/${locale}/blog/${slug.join("/")}/`}
+              tags={post.data.tags}
+            />
+          </li>
         );
       })
     }
@@ -62,20 +66,56 @@ export const getStaticPaths = () =>
 </Layout>
 
 <style>
-  p {
-    margin-block-start: var(--sp-s);
+  .page-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid
+      color-mix(in oklab, var(--color-base-content) 8%, transparent);
   }
-  ul {
-    margin-block-start: var(--sp-m);
-    display: grid;
-    gap: var(--sp-s);
-    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  .page-eyebrow {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+  .page-title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .page-intro {
+    margin: 0.5rem 0 0;
+    max-width: 48rem;
+    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
+    line-height: 1.6;
+  }
+  .page-intro-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .page-intro-link:hover {
+    text-decoration: underline;
   }
 
-  li {
-    margin-block-end: 1rem;
-    img {
-      border-radius: 6px;
+  .projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .projects-list {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>
