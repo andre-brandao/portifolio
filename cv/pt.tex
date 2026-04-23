@@ -1,0 +1,185 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage[a4paper,top=1.1cm,bottom=1.1cm,left=1.4cm,right=1.4cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{parskip}
+\usepackage{array}
+\usepackage{fontawesome5}
+
+\definecolor{accent}{HTML}{2E3440}
+\definecolor{muted}{HTML}{6B7280}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1pt}
+
+\titleformat{\section}
+  {\color{accent}\normalsize\bfseries}
+  {}{0pt}{\MakeUppercase}[\vspace{-4pt}\color{accent}\hrulefill]
+\titlespacing*{\section}{0pt}{4pt}{1pt}
+
+% In-column section header (for use inside minipages where \section* layout breaks)
+\newcommand{\colsection}[1]{%
+  \par\vspace{2pt}%
+  {\color{accent}\normalsize\bfseries\MakeUppercase{#1}}\par\nobreak
+  \vspace{-3pt}\noindent\textcolor{accent}{\rule{\linewidth}{0.4pt}}\par\vspace{2pt}%
+}
+
+\setlist[itemize]{leftmargin=1.1em,itemsep=0pt,topsep=1pt,parsep=0pt}
+
+\newcommand{\role}[4]{%
+  \par\vspace{2pt}%
+  \noindent\begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    \textbf{#1} \textit{\textcolor{muted}{#2}} & \textcolor{muted}{#3} \\
+  \end{tabular*}\par\nobreak
+  \vspace{1pt}#4\par
+}
+
+\newcommand{\edu}[3]{%
+  \par\vspace{1pt}%
+  \noindent\begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    \textbf{#1} \textit{\textcolor{muted}{#2}} & \textcolor{muted}{#3} \\
+  \end{tabular*}\par
+}
+
+\newcommand{\project}[4]{%
+  \par\vspace{2pt}%
+  \noindent\begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    \textbf{#1} \textcolor{muted}{--- #2} & \href{https://#3}{\textcolor{muted}{#3}} \\
+  \end{tabular*}\par\nobreak
+  #4\par
+}
+
+\newcommand{\contact}[2]{\textcolor{muted}{#1}~\,#2}
+
+\begin{document}
+
+%----- Cabeçalho: nome/cargo (esquerda) | contato (direita) -----
+\noindent
+\begin{minipage}[b]{0.55\linewidth}
+  {\Huge\bfseries André Brandão}\\[3pt]
+  {\color{muted}\normalsize Engenheiro de Plataforma \& Backend}
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{0.42\linewidth}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}l@{\hspace{12pt}}l@{}}
+    \contact{\faEnvelope}{\href{mailto:eu@andrebrandao.dev}{eu@andrebrandao.dev}} &
+      \contact{\faGithub}{\href{https://github.com/andre-brandao}{github.com/andre-brandao}} \\
+    \contact{\faGlobe}{\href{https://andrebrandao.dev}{andrebrandao.dev}} &
+      \contact{\faMapMarker*}{Belo Horizonte, Brasil} \\
+  \end{tabular}
+\end{minipage}
+
+\vspace{6pt}
+
+%----- Perfil | Habilidades (lado a lado) -----
+\noindent
+\begin{minipage}[t]{0.46\linewidth}
+  \colsection{Perfil}
+  Engenheiro de plataforma e backend que entrega ponta a ponta, da AWS e Terraform
+  no trabalho a um homelab declarativo em NixOS + Proxmox em casa. Atualmente
+  estagiário em Engenharia de ML na A3Data, construindo observabilidade para
+  sistemas multiagentes de IA no Amazon Bedrock AgentCore e mantendo a plataforma
+  interna de Backstage. Cofundador da Crossgeo, colocando em produção sistemas
+  para logística e distribuição na AWS.
+  Concluindo o Bacharelado em Ciência da Computação na PUC-MG em 2026.
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.52\linewidth}
+  \colsection{Habilidades}
+  \small
+  \begin{tabular}{@{}p{0.28\linewidth}p{0.68\linewidth}@{}}
+    \textbf{Linguagens} & TypeScript, Python, Go, C, Java, Rust, Bash \\
+    \textbf{Backend} & APIs REST / gRPC, microsserviços, orientado a eventos
+      (SQS / EventBridge / DynamoDB Streams), ECS, Lambda, RDS, DynamoDB, S3, CloudFront \\
+    \textbf{Infra} & AWS, Cloudflare, Terraform, Pulumi/SST, Backstage,
+      K8s (Talos/Rancher), Docker, Proxmox, GitHub Actions, Vault, IAM \\
+    \textbf{Dados} & PostgreSQL, SQLite, Redis, SQL, NoSQL, Airflow, Spark \\
+    \textbf{Observabilidade} & OpenTelemetry, Prometheus / Grafana, tracing distribuído \\
+    \textbf{IA \& LLMs} & Amazon (Bedrock/AgentCore), sistemas multiagentes, MCPs, Langchain \\
+    \textbf{Ferramentas} & Linux, Nix / NixOS, Git, SOPS, FluxCD \\
+  \end{tabular}
+\end{minipage}
+
+\section*{Experiência}
+\role{Estagiário em Engenharia de ML}{A3Data --- Belo Horizonte, Brasil}{03/2025 -- Atual}{
+  \begin{itemize}
+    \item Implementei a camada de observabilidade do sistema multiagente de
+          cotações do Grupo Elfa no Amazon Bedrock AgentCore, a primeira
+          implantação do AgentCore em produção na América Latina. Adicionei
+          tracing distribuído, KPIs de negócio e dashboards via OpenTelemetry
+          para um pipeline que processa mais de 800 mil cotações por mês.
+          Publicado no blog de engenharia da AWS Brasil:
+          \href{https://aws.amazon.com/pt/blogs/aws-brasil/grupo-elfa-aplicando-amazon-bedrock-agentcore-para-observabilidade-de-sistema-multiagente-em-escala/}{\textit{Grupo Elfa --- Amazon Bedrock AgentCore para observabilidade de sistema multiagente em escala}}.
+    \item Construí a plataforma interna de desenvolvedores em Backstage (Spotify)
+          com um motor de templates que cobre agentes de WhatsApp, agentes LLM
+          web, pipelines de ETL (Airflow + Spark) e projetos de ML em Python.
+          Cada template já vem com infra em Terraform, pipelines de deploy,
+          monitoramento e IAM conectados às convenções da empresa.
+    \item Provisionei e implantei agentes e serviços em produção na AWS em ECS,
+          Lambda, DynamoDB (incl.\ Streams) e RDS inteiramente via Terraform.
+    \item \textit{Stack:} Python, Terraform, Backstage, OpenTelemetry, Airflow, Spark, AWS.
+  \end{itemize}
+}
+\role{Desenvolvedor Full Stack, Cofundador}{Crossgeo --- Belo Horizonte, Brasil}{06/2024 -- Atual}{
+  \begin{itemize}
+    \item \textbf{Duarte Distribuidora:} sistema de gestão em produção em uma
+          distribuidora de bebidas, cobrindo estoque, vendas, clientes e
+          fornecedores. Svelte, TypeScript, SQLite.
+    \item \textbf{Rota 88 Delivery:} plataforma de logística de última milha em
+          produção. Ingere pedidos do iFood e da SAIPOS via webhooks em Lambda,
+          roda a aplicação web do operador em ECS com WebSockets para despacho
+          em tempo real, e entrega um app React Native para os motoboys cobrindo
+          aceite/recusa, comprovante de entrega e redirecionamento para o Google
+          Maps. Os restaurantes configuram entre várias heurísticas de roteamento
+          que construímos para o despacho automático.
+          Svelte, TypeScript, React Native, PostgreSQL no RDS, AWS (ECS + ALB,
+          Lambda, CloudFront).
+  \end{itemize}
+}
+\role{Desenvolvedor Full Stack}{Crossvirus (startup PUC-MG) --- Belo Horizonte, Brasil}{03/2024 -- 2025}{
+  Desenvolvi uma plataforma de monitoramento epidemiológico (Dengue, COVID-19)
+  usada em Divinópolis e João Monlevade, e coordenei dois estagiários da PUC-MG.
+  Astro, Svelte, PostgreSQL.
+}
+
+\section*{Projetos}
+\project{Homelab}{Nix / NixOS, Terraform, Proxmox, SOPS, Talos}{github.com/andre-brandao/nixos}{
+  Infraestrutura totalmente declarativa cobrindo minhas estações de trabalho
+  (NixOS com home-manager) e um homelab em Proxmox que roda Gitea, HashiCorp
+  Vault, monitoramento com Prometheus e Grafana, e um gateway de LLM. Cada host
+  é um módulo NixOS próprio com um stack Terraform correspondente para o
+  Proxmox, e todos os segredos são criptografados com SOPS.
+}
+
+\project{GPUi Shell}{Rust, Wayland, D-Bus, IPC, Nix}{github.com/andre-brandao/gpui-shell}{
+  Shell de desktop para Wayland acelerado por GPU, escrito em Rust sobre o
+  framework GPUI do Zed. Substitui waybar, rofi e swaync por um único app que
+  cuida da barra de status, launcher de aplicativos, central de controle e
+  controles de mídia, e funciona tanto com Hyprland quanto com Niri.
+}
+
+\section*{Certificações}
+AWS Partner --- Agentic AI Essentials \textbullet{} Generative AI (Technical) \textbullet{}
+Digital Sovereignty on AWS (Technical) \textbullet{}
+AWS Academy Graduate --- Cloud Foundations.
+
+\section*{Formação}
+\edu{Bacharelado em Ciência da Computação}{PUC-MG, Belo Horizonte, Brasil}{2022 -- 2026/1 (previsto)}
+
+\section*{Idiomas}
+\begin{tabular}{@{}p{0.22\linewidth}p{0.76\linewidth}@{}}
+  \textbf{Português} & Nativo \\
+  \textbf{Inglês} & Proficiência profissional \\
+\end{tabular}
+
+\end{document}
