@@ -28,8 +28,10 @@ const isActive = (path: string) =>
 
   <li>
     <a
-      href={getRelativeLocaleUrl(locale, "/cv")}
-      class={`text-base py-3 ${isActive("/cv") ? activeClass : ""}`}
+      href={`/${locale}/cv.pdf`}
+      target="_blank"
+      rel="noopener"
+      class="text-base py-3"
     >
       CV
     </a>

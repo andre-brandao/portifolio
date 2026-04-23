@@ -1,0 +1,98 @@
+---
+import { useTranslations, type Lang } from '@/i18n'
+
+export interface Props {
+  lang: Lang
+  title?: string
+}
+
+const { lang, title } = Astro.props as Props
+const t = useTranslations(lang)
+
+type Badge = {
+  image: string
+  verifyUrl: string
+  label: {
+    en: string
+    pt: string
+  }
+}
+
+const badges: Badge[] = [
+  {
+    image: '/badges/aws-academy-graduate-cloud-foundations-training-bad.png',
+    verifyUrl:
+      'https://www.credly.com/badges/1c83d28d-b6bd-4f32-8221-dd43e1c0944a/linked_in_profile',
+    label: {
+      en: 'AWS Academy Graduate - Cloud Foundations',
+      pt: 'AWS Academy Graduate - Cloud Foundations',
+    },
+  },
+  {
+    image: '/badges/aws-partner-agentic-ai-essentials-training-badge.png',
+    verifyUrl:
+      'https://www.credly.com/badges/feacbf3b-5273-496c-a5d6-2fe24926a591/linked_in_profile',
+    label: {
+      en: 'AWS Partner - Agentic AI Essentials',
+      pt: 'AWS Partner - Agentic AI Essentials',
+    },
+  },
+  {
+    image: '/badges/aws-partner-digital-sovereignty-on-aws-technical-tr.png',
+    verifyUrl:
+      'https://www.credly.com/badges/33a12707-44dd-46ad-a2db-9b4a9bf6b379/linked_in_profile',
+    label: {
+      en: 'AWS Partner - Digital Sovereignty on AWS (Technical)',
+      pt: 'AWS Partner - Soberania Digital na AWS (Técnico)',
+    },
+  },
+  {
+    image: '/badges/aws-partner-generative-ai-technical-training-badge.png',
+    verifyUrl:
+      'https://www.credly.com/badges/abee1148-2c35-4330-a089-576ab8b6ac63/linked_in_profile',
+    label: {
+      en: 'AWS Partner - Generative AI Technical',
+      pt: 'AWS Partner - IA Generativa Técnica',
+    },
+  },
+]
+---
+
+<section class="mt-8" aria-labelledby="badges-title">
+  <h2 id="badges-title" class="text-2xl font-bold mb-4">
+    {
+      title ??
+        t({
+          en: 'Badges',
+          pt: 'Certificações',
+        })
+    }
+  </h2>
+
+  <ul
+    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 list-none p-0 m-0"
+  >
+    {
+      badges.map((badge) => (
+        <li>
+          <a
+            href={badge.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card bg-base-100 shadow hover:shadow-lg transition-shadow p-3 flex items-center justify-center min-h-[140px]"
+            aria-label={t(badge.label)}
+            title={t(badge.label)}
+          >
+            <img
+              src={badge.image}
+              alt={t(badge.label)}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-28 object-contain"
+            />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

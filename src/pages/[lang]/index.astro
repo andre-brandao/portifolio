@@ -1,30 +1,31 @@
 ---
-import { LOCALES, useTranslations, type Lang } from "@/i18n";
-import Layout from "@/layouts/Base.astro";
-const t = useTranslations(Astro.currentLocale as Lang);
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { LOCALES, useTranslations, type Lang } from '@/i18n'
+import Layout from '@/layouts/Base.astro'
+const t = useTranslations(Astro.currentLocale as Lang)
+import { getRelativeLocaleUrl } from 'astro:i18n'
 
-import Globe from "../../components/globe/Globe.astro";
-import Card2 from "@/components/card/v2/Card2.astro";
+import Globe from '../../components/globe/Globe.astro'
+import Card2 from '@/components/card/v2/Card2.astro'
 
-import HorizontalCard from "@/components/card/HorizontalCard.astro";
+import HorizontalCard from '@/components/card/HorizontalCard.astro'
 
 // import heroImageEn from "@/assets/en/hero.svg";
 // import heroImagePt from "@/assets/pt/hero.svg";
 // import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content'
+import Badges from '@/components/Badges.astro'
 
-const locale = Astro.currentLocale as Lang;
+const locale = Astro.currentLocale as Lang
 
 export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({
     params: { lang },
-  }));
+  }))
 
-const projects = (await getCollection("blog"))
-  .filter((post) => post.id.split("/")[0] === locale)
+const projects = (await getCollection('blog'))
+  .filter((post) => post.id.split('/')[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+  .slice(0, 3)
 ---
 
 <Layout>
@@ -42,7 +43,7 @@ const projects = (await getCollection("blog"))
       {
         t({
           en: "Welcome to my personal portfolio! I'm André, a Full Stack Developer and Linux enthusiast, currently working at a company where I am a co-founder with a professor I had in college (PUC-MG), serving as the lead developer on various projects.",
-          pt: "Bem-vindo ao meu portfólio pessoal! Sou André, Desenvolvedor Full Stack e entusiasta de Linux. Atualmente, sou co-fundador de uma empresa em parceria com um professor da PUC-MG, onde atuo como desenvolvedor principal em diversos projetos.",
+          pt: 'Bem-vindo ao meu portfólio pessoal! Sou André, Desenvolvedor Full Stack e entusiasta de Linux. Atualmente, sou co-fundador de uma empresa em parceria com um professor da PUC-MG, onde atuo como desenvolvedor principal em diversos projetos.',
         })
       }
     </em>
@@ -53,12 +54,12 @@ const projects = (await getCollection("blog"))
     rowSpan="md:row-span-1"
     title={t({
       en: "Places I've visited",
-      pt: "Lugares que visitei",
+      pt: 'Lugares que visitei',
     })}
     href="travel"
   >
     <div class="h-full w-full absolute inset-0 -z-10">
-      <Globe  />
+      <Globe />
     </div>
   </Card2>
   <!-- <p>
@@ -91,35 +92,43 @@ const projects = (await getCollection("blog"))
   <div class="grid grid-cols-1 gap-4">
     {
       projects.map((post) => {
-        const [, ...slug] = post.id.split("/");
+        const [, ...slug] = post.id.split('/')
         return (
           <HorizontalCard
             title={post.data.title}
             date={post.data.date}
             img={post.data.cover}
-            slug={slug.join("/")}
+            slug={slug.join('/')}
             desc={post.data.description}
-            href={`/${locale}/blog/${slug.join("/")}/`}
+            href={`/${locale}/blog/${slug.join('/')}/`}
             tags={post.data.tags}
           />
-        );
+        )
       })
     }
   </div>
+  <Badges
+    lang={locale}
+    title={t({
+      en: 'Badges',
+      pt: 'Certificações',
+    })}
+  />
+
   <center>
     <a
-      href={getRelativeLocaleUrl(locale, "blog")}
+      href={getRelativeLocaleUrl(locale, 'blog')}
       class="btn btn-primary mt-3"
       transition:name={t({
-        en: "Projects",
-        pt: "Projetos",
+        en: 'Projects',
+        pt: 'Projetos',
       })}
     >
       <span class="material-icons-sharp dir">arrow_forward</span>
       {
         t({
-          en: "All projects",
-          pt: "Todos os projetos",
+          en: 'All projects',
+          pt: 'Todos os projetos',
         })
       }
     </a>
