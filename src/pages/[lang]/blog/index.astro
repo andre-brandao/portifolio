@@ -11,7 +11,7 @@ const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
 
 const posts = (await getCollection("blog"))
-  .filter((post) => post.slug.split("/")[0] === locale)
+  .filter((post) => post.id.split("/")[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const title = t({
@@ -45,7 +45,7 @@ export const getStaticPaths = () =>
   <ul>
     {
       posts.map((post) => {
-        const [, ...slug] = post.slug.split("/");
+        const [, ...slug] = post.id.split("/");
         return (
           <Card
             title={post.data.title}

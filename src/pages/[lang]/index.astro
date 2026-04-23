@@ -22,7 +22,7 @@ export const getStaticPaths = () =>
   }));
 
 const projects = (await getCollection("blog"))
-  .filter((post) => post.slug.split("/")[0] === locale)
+  .filter((post) => post.id.split("/")[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 ---
@@ -91,7 +91,7 @@ const projects = (await getCollection("blog"))
   <div class="grid grid-cols-1 gap-4">
     {
       projects.map((post) => {
-        const [, ...slug] = post.slug.split("/");
+        const [, ...slug] = post.id.split("/");
         return (
           <HorizontalCard
             title={post.data.title}
