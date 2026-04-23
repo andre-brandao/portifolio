@@ -8,10 +8,10 @@ const { title, img, desc, href, badge, tags } = Astro.props;
 ---
 
 <div
-  class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%] hover:bg-opacity-65"
+  class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%] hover:bg-base-200/65"
 >
   <a href={href}>
-    <div class="hero-content flex-col">
+    <div class="flex flex-col items-center gap-3 p-4">
       {
         img && (
           <Image
@@ -20,7 +20,7 @@ const { title, img, desc, href, badge, tags } = Astro.props;
             height={422}
             format="webp"
             alt={title}
-            class="max-w-full md:max-w-[13rem] rounded-lg"
+            class="w-full max-w-[13rem] rounded-lg object-cover"
             transition:name={title + "image"}
           />
         )

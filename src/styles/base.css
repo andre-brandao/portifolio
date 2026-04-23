@@ -1,9 +1,10 @@
 /* basic page style */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@tailwind variants;
+@plugin "daisyui" {
+  themes: bumblebee --default, dim --prefersdark;
+  logs: false;
+}
 
 :lang(ar) {
   * {
@@ -12,20 +13,11 @@
 }
 
 :root {
-  @media (prefers-color-scheme: dark) {
-    --color-theme: #1aa8ef;
-    --color-accent: #0e7895;
-    --color-base: #282c34;
-    --color-main: #faf9f6;
-    --color-caution: #ffaa33;
-  }
-  @media (prefers-color-scheme: light) {
-    --color-theme: #ef4d1a;
-    --color-accent: #ffcc21;
-    --color-base: #faf9f6;
-    --color-main: #342c28;
-    --color-caution: #a80a00;
-  }
+  --color-theme: var(--color-primary);
+  --color-accent: var(--color-secondary);
+  --color-base: var(--color-base-100);
+  --color-main: var(--color-base-content);
+  --color-caution: var(--color-warning);
 
   --sp-l: 64px;
   --sp-m: 32px;

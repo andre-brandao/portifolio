@@ -5,7 +5,6 @@ import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import LocaleHtmlHead from "@/components/i18n/LocaleHtmlHead.astro";
 import LocaleSuggest from "@/components/i18n/LocaleSuggest.astro";
-import SideBar from "@/components/sidebar/SideBar.astro";
 
 import { ClientRouter } from "astro:transitions";
 
@@ -85,19 +84,28 @@ const localeDescription = description || t(SITE_DESCRIPTION);
   <body>
     <LocaleSuggest />
 
-    <div class=" drawer lg:drawer-open">
-      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content ">
-        <Header title={SITE_TITLE} />
-        <div class="md:flex md:justify-center">
-          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw] w-full">
-            <slot />
-          </main>
-        </div>
-        <Footer />
-      </div>
-      {  <SideBar  />}
+    <div class="site-layout">
+      <Header title={SITE_TITLE} />
+      <main class="site-main">
+        <slot />
+      </main>
+      <Footer />
     </div>
+
+    <style is:global>
+      .site-layout {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .site-main {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem 1.5rem;
+        flex: 1;
+      }
+    </style>
 
     { import.meta.env.DEV && <style>:root { scroll-behavior: auto }</style> }
   </body>

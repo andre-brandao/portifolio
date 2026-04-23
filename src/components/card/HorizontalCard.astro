@@ -10,10 +10,10 @@ const { title, img, desc,  href, badge, tags, target = "_blank" } = Astro.props;
 ---
 
 <div
-  class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%] hover:bg-opacity-65"
+  class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%] hover:bg-base-200/65"
 >
   <a href={href}>
-    <div class="hero-content flex-col md:flex-row">
+    <div class="flex flex-col md:flex-row items-center gap-4 p-4">
       {
         img && (
           <Image
@@ -22,12 +22,12 @@ const { title, img, desc,  href, badge, tags, target = "_blank" } = Astro.props;
             height={422}
             format="webp"
             alt={title}
-            class="max-w-full md:max-w-[13rem] rounded-lg"
-            transition:name={title + "image"} 
+            class="w-full md:w-[13rem] md:shrink-0 rounded-lg object-cover"
+            transition:name={title + "image"}
           />
         )
       }
-      <div class="grow w-full">
+      <div class="grow w-full min-w-0">
         <h1 class="text-xl font-bold" transition:name={title}>
           {title}
           {badge && <div class="badge badge-secondary mx-2">{badge}</div>}
