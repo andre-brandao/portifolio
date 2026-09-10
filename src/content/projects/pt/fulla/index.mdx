@@ -11,6 +11,11 @@ tags:
   - Prototipo
 ---
 
+import Shots from "@/components/Shots.astro";
+import app1 from "./app1.png";
+import app2 from "./app2.png";
+import app3 from "./app3.png";
+
 # Fulla: Monitoramento de Consumo em Tempo Real
 
 Fulla é um projeto inovador desenvolvido durante a disciplina de TI-5 na PUC Minas. O principal objetivo do Fulla é monitorar e fornecer informações em tempo real sobre o consumo de alimentos e outros bens em sua casa.
@@ -33,11 +38,7 @@ O Fulla é um pote inteligente que mede a quantidade de mantimentos armazenados 
 Durante o projeto foi desenvolvido um prototipo utiliando um pote velho de tinta para a base, mas ele se perdeu com o tempo.
 
 ## Fotos do App
-<div style="display:flex; ">
-    <img src="./app1.png" alt="app1" style="width:33%;"/>
-    <img src="./app2.png" alt="app2" style="width:33%;"/>
-    <img src="./app3.png" alt="app3" style="width:33%;"/>
-</div>
+<Shots images={[app1, app2, app3]} alt="Fulla app" />
 
 
 ### Certificado

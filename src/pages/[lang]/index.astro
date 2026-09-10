@@ -5,7 +5,7 @@ import Layout from '@/layouts/Base.astro'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getCollection } from 'astro:content'
 
-import ProjectRow from '@/components/ProjectRow.astro'
+import ProjectList from '@/components/ProjectList.astro'
 import Certifications from '@/components/Certifications.astro'
 import Globe from '@/components/globe/Globe.astro'
 
@@ -15,7 +15,7 @@ const t = useTranslations(locale)
 export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({ params: { lang } }))
 
-const projects = (await getCollection('projects'))
+const projects = (await getCollection('projects', ({ data }) => !data.draft))
   .filter((post) => post.id.split('/')[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 4)
@@ -57,20 +57,7 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
   </section>
 
   <h2 class="label">{t({ en: 'projects', pt: 'projetos' })}</h2>
-  <div class="rows">
-    {projects.map((post) => {
-      const [, ...slug] = post.id.split('/')
-      return (
-        <ProjectRow
-          title={post.data.title}
-          desc={post.data.description}
-          img={post.data.cover}
-          year={post.data.date.getUTCFullYear()}
-          href={`/${locale}/projects/${slug.join('/')}/`}
-        />
-      )
-    })}
-  </div>
+  <ProjectList projects={projects} locale={locale} />
   <p class="more meta">
     <a class="link" href={projectsUrl}>
       {t({ en: 'All projects', pt: 'Todos os projetos' })} →

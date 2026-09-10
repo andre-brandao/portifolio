@@ -249,6 +249,45 @@ a.row:hover .row-title {
   white-space: nowrap;
 }
 
+/* Hover preview for project lists (ProjectList) --------------------- */
+.peek-list {
+  position: relative;
+}
+.peek {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 20rem;
+  max-width: 60vw;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-2);
+  box-shadow: 0 12px 32px -16px rgb(0 0 0 / 0.35);
+}
+.peek img {
+  width: 100%;
+  height: auto;
+}
+.peek-list.is-peeking .peek {
+  opacity: 1;
+}
+.peek-list .row {
+  transition: opacity 0.15s ease;
+}
+.peek-list.is-peeking .row:not(:hover) {
+  opacity: 0.45;
+}
+@media (hover: none) {
+  .peek {
+    display: none;
+  }
+}
+
 /* Page headings ---------------------------------------------------- */
 
 .title {
@@ -349,6 +388,11 @@ a.row:hover .row-title {
 .prose video {
   border-radius: var(--radius);
   border: 1px solid var(--rule);
+  /* screenshots and transparent diagrams stay legible in dark mode */
+  background: #fff;
+  /* portrait shots (phone screens) should not fill the column */
+  max-height: 32rem;
+  width: auto;
 }
 .prose iframe {
   max-width: 100%;

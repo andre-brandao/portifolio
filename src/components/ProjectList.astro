@@ -1,0 +1,86 @@
+---
+// List of projects. On devices with a pointer, hovering a row floats a
+// larger preview of its cover next to the cursor and dims the other rows.
+
+import { getImage } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import ProjectRow from "@/components/ProjectRow.astro";
+
+interface Props {
+  projects: CollectionEntry<"projects">[];
+  locale: string;
+}
+
+const { projects, locale } = Astro.props;
+
+const rows = await Promise.all(
+  projects.map(async (post) => {
+    const [, ...slug] = post.id.split("/");
+    const preview = post.data.cover
+      ? (await getImage({ src: post.data.cover, width: 640, format: "webp" })).src
+      : undefined;
+    return {
+      title: post.data.title,
+      desc: post.data.description,
+      img: post.data.cover,
+      year: post.data.date.getUTCFullYear(),
+      href: `/${locale}/projects/${slug.join("/")}/`,
+      preview,
+    };
+  }),
+);
+---
+
+<div class="rows peek-list" data-peek-list>
+  {rows.map((row) => <ProjectRow {...row} />)}
+  <div class="peek" aria-hidden="true">
+    <img alt="" />
+  </div>
+</div>
+
+<script>
+  function init() {
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    document.querySelectorAll<HTMLElement>("[data-peek-list]").forEach((list) => {
+      if (list.dataset.peekReady) return;
+      list.dataset.peekReady = "1";
+
+      const peek = list.querySelector<HTMLElement>(".peek");
+      const img = peek?.querySelector("img");
+      if (!peek || !img) return;
+
+      let x = 0;
+      let y = 0;
+      let frame = 0;
+      const place = () => {
+        peek.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`;
+        frame = 0;
+      };
+
+      list.addEventListener("pointermove", (e) => {
+        const r = list.getBoundingClientRect();
+        x = e.clientX - r.left;
+        y = e.clientY - r.top - 14;
+        if (!frame) frame = requestAnimationFrame(place);
+      });
+
+      list.querySelectorAll<HTMLElement>(".row").forEach((row) => {
+        row.addEventListener("pointerenter", () => {
+          const src = row.dataset.preview;
+          if (src) {
+            if (img.getAttribute("src") !== src) img.src = src;
+            list.classList.add("is-peeking");
+          } else {
+            list.classList.remove("is-peeking");
+          }
+        });
+      });
+
+      list.addEventListener("pointerleave", () => list.classList.remove("is-peeking"));
+    });
+  }
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>

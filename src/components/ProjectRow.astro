@@ -11,12 +11,14 @@ interface Props {
   href: string;
   img?: ImageMetadata;
   year?: number | string;
+  /** URL of a larger image shown by ProjectList while hovering */
+  preview?: string;
 }
 
-const { title, desc, href, img, year } = Astro.props;
+const { title, desc, href, img, year, preview } = Astro.props;
 ---
 
-<a href={href} class="row">
+<a href={href} class="row" data-preview={preview}>
   <span class:list={["row-thumb", !img && "row-thumb--empty"]}>
     {
       img && (

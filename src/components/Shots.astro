@@ -1,0 +1,36 @@
+---
+// A row of screenshots side by side (phone screens, before/after, etc.).
+// Use from MDX:  import Shots from "@/components/Shots.astro";
+//                import a from "./a.png";  <Shots images={[a, b, c]} alt="App" />
+
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  images: ImageMetadata[];
+  alt?: string;
+}
+
+const { images, alt = "" } = Astro.props;
+---
+
+<div class="shots" style={`--n: ${images.length}`}>
+  {
+    images.map((img, i) => (
+      <Image src={img} width={480} format="webp" alt={alt ? `${alt} ${i + 1}` : ""} loading="lazy" />
+    ))
+  }
+</div>
+
+<style>
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  .shots :global(img) {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+</style>

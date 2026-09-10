@@ -18,8 +18,8 @@ export async function GET(context) {
 		? SITE_DESCRIPTION
 		: SITE_DESCRIPTION[locale];
 
-	const posts = await getCollection('projects', ({ id }) => {
-		return id.split("/")[0] == locale;
+	const posts = await getCollection('projects', ({ id, data }) => {
+		return !data.draft && id.split("/")[0] == locale;
 	});
 	posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 

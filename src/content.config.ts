@@ -12,6 +12,8 @@ const projects = defineCollection({
       date: z.coerce.date(),
       cover: image().optional(),
       tags: z.array(z.string()),
+      // true = archived: kept in the repo, left out of the site
+      draft: z.boolean().default(false),
     }),
 });
 
