@@ -1,11 +1,12 @@
 ---
-// Select UI to switch between locales.
+// Dropdown to switch between locales. Handy once there are more than two.
+// (The header currently uses LocaleSelectSingle, a plain link, for two.)
 
 import { getLocalePaths, LOCALES } from "@/i18n";
 ---
 
-<label>
-  <span class="material-icons-sharp">translate</span>
+<label class="locale-select">
+  <span class="sr-only">Language</span>
   <select data-languageSelect>
     {
       getLocalePaths(Astro.url).map(({ path, lang }) => (
@@ -19,15 +20,12 @@ import { getLocalePaths, LOCALES } from "@/i18n";
       ))
     }
   </select>
-  <span class="material-icons-sharp">expand_more</span>
 </label>
 
 <script is:inline>
-  const selects = document.querySelectorAll("[data-languageSelect]");
-
-  selects.forEach((select) => {
+  document.querySelectorAll("[data-languageSelect]").forEach((select) => {
     select.addEventListener("change", (event) => {
-      // used for 404 page
+      // remembered by the 404 page and the language suggestion banner
       localStorage.selectedLang = event.target?.selectedOptions[0].dataset.lang;
       location.href = event.target?.value;
     });
@@ -35,36 +33,33 @@ import { getLocalePaths, LOCALES } from "@/i18n";
 </script>
 
 <style>
-  label {
-    position: relative;
+  .locale-select {
     display: inline-block;
-    width: 240px;
-    text-align-last: left;
-    .material-icons-sharp {
-      pointer-events: none;
-      position: absolute;
-      color: var(--color-theme);
-      &:first-child {
-        font-size: 24px;
-        inset: 8px auto 8px 8px;
-        opacity: 0.4;
-      }
-      &:last-child {
-        font-size: 28px;
-        inset: 6px 6px 6px auto;
-      }
-    }
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
   select {
-    width: 100%;
-    height: 40px;
-    padding-inline: 38px;
-    cursor: pointer;
     appearance: none;
-    border-radius: 6px;
-    font-family: "Noto Sans";
-    color: var(--color-main);
-    background-color: var(--color-base);
-    border: 2px solid var(--color-theme);
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--muted);
+    padding: 0.3rem 1.6rem 0.3rem 0.6rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    background: var(--bg)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238a8a85' stroke-width='1.2'/%3E%3C/svg%3E")
+      no-repeat right 0.55rem center;
+  }
+  select:hover,
+  select:focus-visible {
+    color: var(--fg);
+    border-color: var(--muted);
+    outline: none;
   }
 </style>

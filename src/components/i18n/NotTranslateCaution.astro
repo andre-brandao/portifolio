@@ -1,5 +1,5 @@
 ---
-// Alerts the user that the page is only available in a specific language
+// Tells the reader the page only exists in some languages.
 
 import { useTranslations, type Lang } from "@/i18n";
 import { NOT_TRANSLATED_CAUTION } from "@/consts";
@@ -15,27 +15,24 @@ const currentLocale = Astro.currentLocale as Lang;
 
 {
   !usedLangs.includes(currentLocale) && (
-    <p>
-      <span class="material-icons-sharp">warning</span>
+    <p class="caution" role="note">
       {t(NOT_TRANSLATED_CAUTION)}
     </p>
   )
 }
 
 <style>
-  p {
-    padding: 0.5em;
-    margin-block: var(--sp-m);
-    color: var(--color-base);
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    font-size: 1.2em;
-    background: var(--color-caution);
-    border-radius: 6px;
+  .caution {
+    margin-block: 0 2rem;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+    background: var(--bg-2);
+    border-inline-start: 2px solid var(--rule-strong);
+    border-radius: 0 4px 4px 0;
   }
-  span {
-    margin-inline-end: 0.5em;
-    vertical-align: middle;
-    opacity: 0.8;
+  .caution::before {
+    content: "! ";
+    color: var(--faint);
   }
 </style>

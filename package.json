@@ -20,15 +20,12 @@
     "@astrojs/mdx": "^8.0.1",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "@tailwindcss/vite": "^4.2.4",
     "astro": "^7.3.2",
     "d3": "^7.9.0",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.2.4",
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@types/d3": "^7.4.3",
-    "daisyui": "^5.5.19"
+    "@types/d3": "^7.4.3"
   }
 }

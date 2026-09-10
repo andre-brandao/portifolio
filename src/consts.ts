@@ -16,3 +16,6 @@ export const NOT_TRANSLATED_CAUTION: string | Multilingual = {
   en: "This page is not available in your language.",
   pt: "Esta página não está disponível no seu idioma.",
 };
+
+// Countries highlighted on the globe. Names must match world.json.
+export const VISITED_COUNTRIES = ["Brazil", "USA", "Canada", "Peru", "Chile"] as const;

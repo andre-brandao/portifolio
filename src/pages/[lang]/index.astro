@@ -1,325 +1,103 @@
 ---
 import { LOCALES, useTranslations, type Lang } from '@/i18n'
+import { VISITED_COUNTRIES } from '@/consts'
 import Layout from '@/layouts/Base.astro'
 import { getRelativeLocaleUrl } from 'astro:i18n'
-import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
-import Globe from '@/components/globe/Globe.astro'
-import HorizontalCard from '@/components/card/HorizontalCard.astro'
+import ProjectRow from '@/components/ProjectRow.astro'
 import Badges from '@/components/Badges.astro'
+import Globe from '@/components/globe/Globe.astro'
 
-const t = useTranslations(Astro.currentLocale as Lang)
 const locale = Astro.currentLocale as Lang
+const t = useTranslations(locale)
 
 export const getStaticPaths = () =>
-  Object.keys(LOCALES).map((lang) => ({
-    params: { lang },
-  }))
+  Object.keys(LOCALES).map((lang) => ({ params: { lang } }))
 
 const projects = (await getCollection('blog'))
   .filter((post) => post.id.split('/')[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3)
+  .slice(0, 4)
+
+const projectsUrl = getRelativeLocaleUrl(locale, 'blog')
+const travelUrl = getRelativeLocaleUrl(locale, 'travel')
 ---
 
 <Layout>
-  <section class="hero">
-    <div class="hero-avatar">
-      <Image
-        class="mask mask-circle"
-        format="webp"
-        width={280}
-        height={280}
-        src="/profile.jpeg"
-        alt="André Brandão"
-      />
-    </div>
-
-    <h1 class="hero-name">
-      {t({ en: "Hi, I'm André", pt: 'Olá, sou o André' })}
+  <section class="intro">
+    <h1 class="title">
+      {t({
+        en: 'André Brandão is a full stack developer and Linux enthusiast.',
+        pt: 'André Brandão é desenvolvedor full stack e entusiasta de Linux.',
+      })}
     </h1>
-
-    <p class="hero-role">
-      {
-        t({
-          en: 'Full Stack Developer & Linux enthusiast',
-          pt: 'Desenvolvedor Full Stack & entusiasta de Linux',
-        })
-      }
+    <p class="lede">
+      {t({
+        en: 'Co-founder and lead developer at a company I started with a professor from PUC-MG. I build web platforms end-to-end, from database to interface, and enjoy working close to the metal on Linux.',
+        pt: 'Co-fundador e desenvolvedor principal em uma empresa que criei com um professor da PUC-MG. Construo plataformas web de ponta a ponta, do banco de dados à interface, e gosto de trabalhar perto do metal em Linux.',
+      })}
     </p>
-
-    <p class="hero-bio">
-      {
-        t({
-          en: 'Co-founder and lead developer at a company I started with a professor from PUC-MG. I build web platforms end-to-end, from database to interface, and enjoy working close to the metal on Linux.',
-          pt: 'Co-fundador e desenvolvedor principal em uma empresa que criei com um professor da PUC-MG. Construo plataformas web de ponta a ponta, do banco de dados à interface, e gosto de trabalhar perto do metal em Linux.',
-        })
-      }
-    </p>
-
-    <div class="hero-actions">
+    <p class="intro-links meta">
       <a
-        href={getRelativeLocaleUrl(locale, 'blog')}
-        class="hero-btn hero-btn-primary"
-      >
-        {t({ en: 'View projects', pt: 'Ver projetos' })}
-      </a>
-      <a
-        href={`/${locale}/cv.pdf`}
-        target="_blank"
-        rel="noopener"
-        class="hero-btn"
-      >
-        {t({ en: 'Download CV', pt: 'Baixar CV' })}
-      </a>
-      <a
+        class="link"
         href="https://github.com/andre-brandao"
         target="_blank"
         rel="noopener"
-        class="hero-btn"
       >
         GitHub
       </a>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-heading">
-      <h2>{t({ en: 'Featured projects', pt: 'Projetos em destaque' })}</h2>
-      <a href={getRelativeLocaleUrl(locale, 'blog')} class="section-link">
-        {t({ en: 'See all', pt: 'Ver todos' })} →
+      <a class="link" href={`/${locale}/cv.pdf`} target="_blank" rel="noopener">
+        CV
       </a>
-    </div>
-
-    <div class="projects-grid">
-      {
-        projects.map((post) => {
-          const [, ...slug] = post.id.split('/')
-          return (
-            <HorizontalCard
-              title={post.data.title}
-              img={post.data.cover}
-              desc={post.data.description}
-              href={`/${locale}/blog/${slug.join('/')}/`}
-              tags={post.data.tags}
-            />
-          )
-        })
-      }
-    </div>
-  </section>
-
-  <section class="section">
-    <Badges
-      lang={locale}
-      title={t({ en: 'Certifications', pt: 'Certificações' })}
-    />
-  </section>
-
-  <section class="section">
-    <div class="section-heading">
-      <h2>{t({ en: 'Places I have visited', pt: 'Lugares que visitei' })}</h2>
-      <a href={getRelativeLocaleUrl(locale, 'travel')} class="section-link">
-        {t({ en: 'Explore', pt: 'Explorar' })} →
+      <a class="link" href="mailto:eu@andrebrandao.dev">
+        eu@andrebrandao.dev
       </a>
-    </div>
-    <a href={getRelativeLocaleUrl(locale, 'travel')} class="globe-card">
-      <div class="globe-wrapper">
-        <Globe />
-      </div>
-      <div class="globe-caption">
-        <p>
-          {
-            t({
-              en: 'An interactive map of the countries I have been to.',
-              pt: 'Um mapa interativo dos países que já visitei.',
-            })
-          }
-        </p>
-      </div>
+    </p>
+  </section>
+
+  <h2 class="label">{t({ en: 'projects', pt: 'projetos' })}</h2>
+  <div class="rows">
+    {projects.map((post) => {
+      const [, ...slug] = post.id.split('/')
+      return (
+        <ProjectRow
+          title={post.data.title}
+          desc={post.data.description}
+          img={post.data.cover}
+          year={post.data.date.getUTCFullYear()}
+          href={`/${locale}/blog/${slug.join('/')}/`}
+        />
+      )
+    })}
+  </div>
+  <p class="more meta">
+    <a class="link" href={projectsUrl}>
+      {t({ en: 'All projects', pt: 'Todos os projetos' })} →
     </a>
-  </section>
+  </p>
+
+  <h2 class="label">{t({ en: 'certifications', pt: 'certificações' })}</h2>
+  <Badges lang={locale} />
+
+  <h2 class="label">{t({ en: 'places', pt: 'lugares' })}</h2>
+  <Globe visited={VISITED_COUNTRIES} />
+  <p class="more meta">
+    {t({ en: 'Countries I have visited.', pt: 'Países que já visitei.' })}
+    <a class="link" href={travelUrl}>
+      {t({ en: 'Full map', pt: 'Mapa completo' })} →
+    </a>
+  </p>
 </Layout>
 
 <style>
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 2rem 0 3rem;
-    gap: 0.75rem;
-  }
-  .hero-avatar {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 9999px;
-    overflow: hidden;
-    box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.35);
-    margin-bottom: 0.5rem;
-  }
-  .hero-avatar :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .hero-name {
-    font-size: clamp(2rem, 5vw, 2.75rem);
-    font-weight: 800;
-    margin: 0;
-    line-height: 1.1;
-  }
-  .hero-role {
-    font-size: 1.125rem;
-    color: var(--color-primary);
-    font-weight: 600;
-    margin: 0;
-  }
-  .hero-bio {
-    max-width: 42rem;
-    color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
-    line-height: 1.65;
-    margin: 0.5rem 0 0;
-  }
-  .hero-actions {
+  .intro-links {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.625rem;
-    margin-top: 1rem;
-  }
-  .hero-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.6rem 1.1rem;
-    border-radius: 9999px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-decoration: none;
-    border: 1px solid
-      color-mix(in oklab, var(--color-base-content) 15%, transparent);
-    color: var(--color-base-content);
-    background-color: color-mix(
-      in oklab,
-      var(--color-base-200) 60%,
-      transparent
-    );
-    transition:
-      transform 0.15s ease,
-      background-color 0.15s ease,
-      border-color 0.15s ease;
-  }
-  .hero-btn:hover {
-    transform: translateY(-1px);
-    border-color: color-mix(
-      in oklab,
-      var(--color-base-content) 30%,
-      transparent
-    );
-  }
-  .hero-btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-primary-content);
-    border-color: var(--color-primary);
-  }
-  .hero-btn-primary:hover {
-    background-color: color-mix(in oklab, var(--color-primary) 85%, black);
-    border-color: color-mix(in oklab, var(--color-primary) 85%, black);
-  }
-  /*.hero-stack {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.4rem;
-    margin: 1.25rem 0 0;
-    padding: 0;
-    list-style: none;
-    max-width: 38rem;
-  }
-  .hero-stack li {
-    font-size: 0.8rem;
-    padding: 0.2rem 0.65rem;
-    border-radius: 9999px;
-    background-color: color-mix(
-      in oklab,
-      var(--color-base-200) 80%,
-      transparent
-    );
-    border: 1px solid
-      color-mix(in oklab, var(--color-base-content) 10%, transparent);
-    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
-  }*/
-
-  .section {
-    margin-top: 3.5rem;
-  }
-  .section-heading {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid
-      color-mix(in oklab, var(--color-base-content) 8%, transparent);
+    margin-top: 1.25rem;
   }
-  .section-heading h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0;
-  }
-  .section-link {
-    font-size: 0.9rem;
-    color: var(--color-primary);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .section-link:hover {
-    text-decoration: underline;
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .globe-card {
-    display: block;
-    position: relative;
-    border-radius: 1rem;
-    overflow: hidden;
-    background-color: var(--color-base-200);
-    border: 1px solid
-      color-mix(in oklab, var(--color-base-content) 8%, transparent);
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-    text-decoration: none;
-    color: inherit;
-  }
-  .globe-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 40px -15px rgba(0, 0, 0, 0.4);
-  }
-  .globe-wrapper {
-    position: relative;
-    height: 22rem;
-    width: 100%;
-  }
-  .globe-wrapper :global(> *) {
-    position: absolute;
-    inset: 0;
-  }
-  .globe-caption {
-    padding: 1rem 1.25rem;
-    border-top: 1px solid
-      color-mix(in oklab, var(--color-base-content) 8%, transparent);
-  }
-  .globe-caption p {
-    margin: 0;
-    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
-    font-size: 0.95rem;
+  .more {
+    margin-top: 0.9rem;
   }
 </style>

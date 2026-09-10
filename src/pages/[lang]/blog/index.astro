@@ -3,119 +3,53 @@ import { LOCALES, useTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Base.astro";
 import { getCollection } from "astro:content";
 
-import Card from "@/components/card/VerticalCard.astro";
+import ProjectRow from "@/components/ProjectRow.astro";
 
 const locale = Astro.currentLocale as Lang;
 const t = useTranslations(locale);
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({ params: { lang } }));
 
 const posts = (await getCollection("blog"))
   .filter((post) => post.id.split("/")[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const title = t({
-  en: "Projects",
-  pt: "Projetos",
-});
-
-export const getStaticPaths = () =>
-  Object.keys(LOCALES).map((lang) => ({
-    params: { lang },
-  }));
+const title = t({ en: "Projects", pt: "Projetos" });
 ---
 
 <Layout {title}>
-  <header class="page-head">
-    <p class="page-eyebrow">
-      {t({ en: "Work & experiments", pt: "Trabalhos & experimentos" })}
-    </p>
-    <h1 class="page-title" transition:name={title}>{title}</h1>
-    <p class="page-intro">
-      {
-        t({
-          en: "A selection of things I've built over the years. Many others I've contributed to don't live here — some are on my",
-          pt: "Uma seleção de coisas que construí ao longo dos anos. Muitos outros nos quais contribuí não estão aqui, alguns estão no meu",
-        })
-      }
-      <a
-        href="https://github.com/andre-brandao"
-        target="_blank"
-        rel="noopener"
-        class="page-intro-link">GitHub</a
-      >.
-    </p>
-  </header>
+  <h1 class="title" transition:name={title}>{title}</h1>
+  <p class="lede">
+    {
+      t({
+        en: "Things I have built over the years. Plenty more that I contributed to lives on my",
+        pt: "Coisas que construí ao longo dos anos. Muito mais em que contribuí está no meu",
+      })
+    }
+    <a class="link" href="https://github.com/andre-brandao" target="_blank" rel="noopener">GitHub</a>.
+  </p>
 
-  <ul class="projects-list">
+  <div class="rows list">
     {
       posts.map((post) => {
         const [, ...slug] = post.id.split("/");
         return (
-          <li>
-            <Card
-              title={post.data.title}
-              img={post.data.cover}
-              desc={post.data.description}
-              href={`/${locale}/blog/${slug.join("/")}/`}
-              tags={post.data.tags}
-            />
-          </li>
+          <ProjectRow
+            title={post.data.title}
+            desc={post.data.description}
+            img={post.data.cover}
+            year={post.data.date.getUTCFullYear()}
+            href={`/${locale}/blog/${slug.join("/")}/`}
+          />
         );
       })
     }
-  </ul>
+  </div>
 </Layout>
 
 <style>
-  .page-head {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding-bottom: 1.5rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid
-      color-mix(in oklab, var(--color-base-content) 8%, transparent);
-  }
-  .page-eyebrow {
-    margin: 0;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-primary);
-  }
-  .page-title {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    font-weight: 800;
-    line-height: 1.1;
-  }
-  .page-intro {
-    margin: 0.5rem 0 0;
-    max-width: 48rem;
-    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
-    line-height: 1.6;
-  }
-  .page-intro-link {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .page-intro-link:hover {
-    text-decoration: underline;
-  }
-
-  .projects-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 1.25rem;
-    grid-template-columns: 1fr;
-  }
-
-  @media (min-width: 640px) {
-    .projects-list {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .list {
+    margin-top: 2.5rem;
   }
 </style>

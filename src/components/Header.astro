@@ -1,141 +1,90 @@
 ---
-import LocaleSelect from "@/components/i18n/LocaleSelectSingle.astro";
 import { Image } from "astro:assets";
+import LocaleSwitch from "@/components/i18n/LocaleSelectSingle.astro";
 import { useTranslations, type Lang } from "@/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
-const t = useTranslations(Astro.currentLocale as Lang);
 const locale = Astro.currentLocale as Lang;
+const t = useTranslations(locale);
 
-const isActive = (path: string) =>
-  getRelativeLocaleUrl(locale, path) === Astro.url.pathname;
+const trim = (s: string) => s.replace(/\/+$/, "");
+const current = trim(Astro.url.pathname);
+const isActive = (href: string) =>
+  current === trim(href) || current.startsWith(trim(href) + "/");
 
-const navItems = [
-  { href: getRelativeLocaleUrl(locale, "/"), label: t({ en: "Home", pt: "Início" }), path: "/" },
+const nav = [
+  { href: getRelativeLocaleUrl(locale, "blog"), label: t({ en: "Projects", pt: "Projetos" }) },
+  { href: getRelativeLocaleUrl(locale, "travel"), label: t({ en: "Travel", pt: "Viagens" }) },
   { href: `/${locale}/cv.pdf`, label: "CV", external: true },
-  { href: getRelativeLocaleUrl(locale, "/blog"), label: t({ en: "Projects", pt: "Projetos" }), path: "/blog" },
-  { href: getRelativeLocaleUrl(locale, "/travel"), label: t({ en: "Travel", pt: "Viagens" }), path: "/travel" },
   { href: "mailto:eu@andrebrandao.dev", label: t({ en: "Contact", pt: "Contato" }), external: true },
 ];
 ---
 
-<header class="site-header">
-  <div class="site-header-inner">
-    <a href={getRelativeLocaleUrl(locale, "/")} class="site-header-brand">
-      <div class="avatar">
-        <div class="site-header-avatar">
-          <Image
-            class="mask mask-circle"
-            format="webp"
-            width={120}
-            height={120}
-            src="/profile.jpeg"
-            alt="Profile image"
-          />
-        </div>
-      </div>
-      <span class="site-header-name">André Brandão</span>
-    </a>
+<header class="wrap header">
+  <a href={getRelativeLocaleUrl(locale, "/")} class="brand">
+    <Image
+      src="/profile.jpeg"
+      width={56}
+      height={56}
+      format="webp"
+      alt=""
+      class="brand-photo"
+    />
+    <span>André Brandão</span>
+  </a>
 
-    <nav class="site-header-nav">
-      {
-        navItems.map((item) => (
-          <a
-            href={item.href}
-            target={item.external ? "_blank" : undefined}
-            rel={item.external ? "noopener" : undefined}
-            class:list={[
-              "site-header-link",
-              item.path && isActive(item.path) && "site-header-link-active",
-            ]}
-          >
-            {item.label}
-          </a>
-        ))
-      }
-      <div class="site-header-locale">
-        <LocaleSelect />
-      </div>
-    </nav>
-  </div>
+  <nav class="nav" aria-label="Main">
+    {
+      nav.map((item) => (
+        <a
+          href={item.href}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noopener" : undefined}
+          class:list={["nav-link", !item.external && isActive(item.href) && "is-active"]}
+          aria-current={!item.external && isActive(item.href) ? "page" : undefined}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+    <LocaleSwitch />
+  </nav>
 </header>
 
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 30;
-    width: 100%;
-    background-color: color-mix(in oklab, var(--color-base-200) 70%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid color-mix(in oklab, var(--color-base-content) 8%, transparent);
-  }
-  .site-header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0.75rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .site-header-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    color: inherit;
-  }
-  .site-header-avatar {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 9999px;
-    overflow: hidden;
-  }
-  .site-header-avatar :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .site-header-name {
-    font-size: 1.125rem;
-    font-weight: 700;
-  }
-  .site-header-nav {
+<style is:global>
+  .header {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    gap: 0.25rem 0.5rem;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 2rem 0;
   }
-  .site-header-link {
-    padding: 0.4rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 0.95rem;
-    color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
-    text-decoration: none;
-    transition: background-color 0.15s ease, color 0.15s ease;
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500;
   }
-  .site-header-link:hover {
-    background-color: color-mix(in oklab, var(--color-base-content) 8%, transparent);
-    color: var(--color-base-content);
+  .brand-photo {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--rule);
   }
-  .site-header-link-active {
-    background-color: var(--color-primary);
-    color: var(--color-primary-content);
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.1rem;
+    font-size: 0.9375rem;
   }
-  .site-header-link-active:hover {
-    background-color: var(--color-primary);
-    color: var(--color-primary-content);
+  .nav-link {
+    color: var(--muted);
+    transition: color 0.15s ease;
   }
-  .site-header-locale {
-    margin-left: 0.25rem;
-  }
-
-  @media (min-width: 768px) {
-    .site-header-inner {
-      flex-direction: row;
-      justify-content: space-between;
-    }
+  .nav-link:hover,
+  .nav-link.is-active {
+    color: var(--fg);
   }
 </style>

@@ -1,0 +1,47 @@
+---
+// One project in a list: small square thumbnail, title, one-line description,
+// year on the right. Used on the home page and the projects index.
+
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  desc: string;
+  href: string;
+  img?: ImageMetadata;
+  year?: number | string;
+}
+
+const { title, desc, href, img, year } = Astro.props;
+---
+
+<a href={href} class="row">
+  <span class:list={["row-thumb", !img && "row-thumb--empty"]}>
+    {
+      img && (
+        <Image
+          src={img}
+          width={96}
+          height={96}
+          format="webp"
+          alt=""
+          transition:name={title + "image"}
+        />
+      )
+    }
+  </span>
+  <span class="row-main">
+    <span class="row-title" transition:name={title}>{title}</span>
+    <span class="row-desc">{desc}</span>
+  </span>
+  {year && <span class="row-aside meta">{year}</span>}
+</a>
+
+<style>
+  .row-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+</style>

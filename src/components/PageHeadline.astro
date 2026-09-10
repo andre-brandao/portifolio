@@ -1,5 +1,5 @@
 ---
-// UI used for heading title on each page.
+// Heading block for simple pages: title plus an optional intro in the slot.
 
 interface Props {
   title: string;
@@ -8,48 +8,18 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<header class="bg-primary/65 text-primary-content" transition:name={title}>
-  <h1 class="text-4xl">{title}</h1>
+<header class="page-head">
+  <h1 class="title" transition:name={title}>{title}</h1>
   <slot />
 </header>
 
 <style>
-  header {
-    position: relative;
-    overflow: hidden;
-    padding-block: var(--sp-l);
-    padding-inline: var(--sp-s);
-    text-align: center;
-    border-radius: 16px;
-    @media (width < 768px) {
-      margin-inline: calc(50% - 50vw);
-      border-radius: 0;
-    }
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      pointer-events: none;
-      background: var(--color-theme);
-      z-index: -1;
-      opacity: 0.1;
-      height: 60%;
-      aspect-ratio: 1;
-      filter: blur(32px);
-    }
-    &::before {
-      inset: 0 0 auto auto;
-      clip-path: polygon(0 0, 100% 0, 100% 100%);
-    }
-    &::after {
-      inset: auto auto 0 0;
-      clip-path: polygon(0 0, 100% 100%, 0 100%);
-    }
-
-    /* h1 {
-      font-size: 1.6rem;
-      letter-spacing: 0.05em;
-    } */
+  .page-head {
+    margin-block-end: 2.5rem;
+  }
+  .page-head :global(p) {
+    color: var(--muted);
+    margin-top: 0.75rem;
+    max-width: 34rem;
   }
 </style>

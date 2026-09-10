@@ -1,23 +1,35 @@
 ---
-import Globe from "../../components/globe/Globe.astro";
-import { localeParams } from "@/i18n";
+import Globe from "@/components/globe/Globe.astro";
+import { localeParams, useTranslations, type Lang } from "@/i18n";
+import { VISITED_COUNTRIES } from "@/consts";
 import Layout from "@/layouts/Base.astro";
 
-import {  useTranslations, type Lang } from "@/i18n";
 const t = useTranslations(Astro.currentLocale as Lang);
-
 export const getStaticPaths = localeParams;
+
+const title = t({ en: "Travel", pt: "Viagens" });
 ---
 
-<Layout
-  title={t({
-    en: "Travel",
-    pt: "Viagens",
-  })}
->
-  <div class="container mx-auto w-full">
-    <div class="h-[90vh] w-full">
-      <Globe />
-    </div>
+<Layout {title}>
+  <h1 class="title">{title}</h1>
+  <p class="lede">
+    {
+      t({
+        en: "Countries I have visited so far. Drag the globe to spin it.",
+        pt: "Países que visitei até agora. Arraste o globo para girá-lo.",
+      })
+    }
+  </p>
+
+  <div class="stage">
+    <Globe visited={VISITED_COUNTRIES} />
   </div>
+
+  <p class="meta">{VISITED_COUNTRIES.join(" · ")}</p>
 </Layout>
+
+<style>
+  .stage {
+    margin-block: 2.5rem 1rem;
+  }
+</style>
