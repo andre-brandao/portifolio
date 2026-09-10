@@ -11,7 +11,7 @@ const t = useTranslations(locale);
 export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({ params: { lang } }));
 
-const posts = (await getCollection("blog"))
+const posts = (await getCollection("projects"))
   .filter((post) => post.id.split("/")[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
@@ -40,7 +40,7 @@ const title = t({ en: "Projects", pt: "Projetos" });
             desc={post.data.description}
             img={post.data.cover}
             year={post.data.date.getUTCFullYear()}
-            href={`/${locale}/blog/${slug.join("/")}/`}
+            href={`/${locale}/projects/${slug.join("/")}/`}
           />
         );
       })

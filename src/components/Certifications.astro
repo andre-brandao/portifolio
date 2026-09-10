@@ -1,0 +1,58 @@
+---
+// Grid of certification badges from the `certifications` collection,
+// each linking to its verification page.
+
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { useTranslations, type Lang } from "@/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const certifications = (await getCollection("certifications")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<ul class="badges">
+  {
+    certifications.map(({ data }) => (
+      <li>
+        <a
+          href={data.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={`${t(data.title)} · ${data.issuer}`}
+          aria-label={t(data.title)}
+        >
+          <Image src={data.image} width={192} height={192} format="webp" alt="" loading="lazy" />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .badges {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+    gap: 1rem;
+  }
+  .badges a {
+    display: block;
+    opacity: 0.85;
+    transition: opacity 0.15s ease;
+  }
+  .badges a:hover,
+  .badges a:focus-visible {
+    opacity: 1;
+  }
+  .badges img {
+    width: 100%;
+    height: auto;
+  }
+</style>
