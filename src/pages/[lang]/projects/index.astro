@@ -12,7 +12,7 @@ export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({ params: { lang } }));
 
 const posts = (await getCollection("projects", ({ data }) => !data.draft))
-  .filter((post) => post.id.split("/")[0] === locale)
+  .filter((post) => post.id.split("/")[1] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const title = t({ en: "Projects", pt: "Projetos" });

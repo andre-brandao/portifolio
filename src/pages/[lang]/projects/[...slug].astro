@@ -6,8 +6,8 @@ import { Image } from "astro:assets";
 export async function getStaticPaths() {
   const posts = await getCollection("projects", ({ data }) => !data.draft);
   return posts.map((post) => {
-    const [lang, ...slug] = post.id.split("/");
-    return { params: { lang, slug: slug.join("/") || undefined }, props: post };
+    const [slug, lang] = post.id.split("/");
+    return { params: { lang, slug }, props: post };
   });
 }
 

@@ -2,9 +2,10 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
-// One folder per locale (en/, pt/), one index.mdx per project.
+// One folder per project holding its images plus one file per locale:
+// projects/<slug>/en.mdx, projects/<slug>/pt.mdx. Entry id = "<slug>/<lang>".
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+  loader: glob({ pattern: '*/*.{md,mdx}', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -17,10 +18,10 @@ const projects = defineCollection({
     }),
 });
 
-// One YAML file per badge, image stored next to it. Titles are multilingual
+// One folder per badge: certifications/<slug>/index.yaml plus its image. Titles are multilingual
 // so a single entry serves every locale.
 const certifications = defineCollection({
-  loader: glob({ pattern: '*.yaml', base: './src/content/certifications' }),
+  loader: glob({ pattern: '*/index.yaml', base: './src/content/certifications' }),
   schema: ({ image }) =>
     z.object({
       title: z.object({ en: z.string(), pt: z.string().optional() }),

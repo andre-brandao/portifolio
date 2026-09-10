@@ -15,7 +15,7 @@ const { projects, locale } = Astro.props;
 
 const rows = await Promise.all(
   projects.map(async (post) => {
-    const [, ...slug] = post.id.split("/");
+    const [slug] = post.id.split("/");
     const preview = post.data.cover
       ? (await getImage({ src: post.data.cover, width: 640, format: "webp" })).src
       : undefined;
@@ -24,7 +24,7 @@ const rows = await Promise.all(
       desc: post.data.description,
       img: post.data.cover,
       year: post.data.date.getUTCFullYear(),
-      href: `/${locale}/projects/${slug.join("/")}/`,
+      href: `/${locale}/projects/${slug}/`,
       preview,
     };
   }),

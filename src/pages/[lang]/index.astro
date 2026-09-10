@@ -16,7 +16,7 @@ export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({ params: { lang } }))
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft))
-  .filter((post) => post.id.split('/')[0] === locale)
+  .filter((post) => post.id.split('/')[1] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 4)
 
