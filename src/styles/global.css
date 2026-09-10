@@ -26,8 +26,10 @@
   --radius: 6px;
 }
 
+/* Dark: follows the system unless a choice is stored as data-theme (ThemeToggle) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --bg: #111110;
     --bg-2: #1a1a19;
     --fg: #e8e8e3;
@@ -37,6 +39,20 @@
     --rule-strong: #3a3a37;
     --selection: #3a3625;
   }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+    --bg: #111110;
+    --bg-2: #1a1a19;
+    --fg: #e8e8e3;
+    --muted: #9c9c95;
+    --faint: #66665f;
+    --rule: #262624;
+    --rule-strong: #3a3a37;
+    --selection: #3a3625;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* Reset ------------------------------------------------------------ */
@@ -377,9 +393,12 @@ a.row:hover .row-title {
   color: var(--shiki-light);
 }
 @media (prefers-color-scheme: dark) {
-  .prose pre.astro-code span {
+  :root:not([data-theme="light"]) .prose pre.astro-code span {
     color: var(--shiki-dark);
   }
+}
+:root[data-theme="dark"] .prose pre.astro-code span {
+  color: var(--shiki-dark);
 }
 
 .prose table {

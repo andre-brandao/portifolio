@@ -1,23 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import LocaleSwitch from "@/components/i18n/LocaleSelectSingle.astro";
-import { useTranslations, type Lang } from "@/i18n";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import { type Lang } from "@/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 const locale = Astro.currentLocale as Lang;
-const t = useTranslations(locale);
-
-const trim = (s: string) => s.replace(/\/+$/, "");
-const current = trim(Astro.url.pathname);
-const isActive = (href: string) =>
-  current === trim(href) || current.startsWith(trim(href) + "/");
-
-const nav = [
-  { href: getRelativeLocaleUrl(locale, "blog"), label: t({ en: "Projects", pt: "Projetos" }) },
-  { href: getRelativeLocaleUrl(locale, "travel"), label: t({ en: "Travel", pt: "Viagens" }) },
-  { href: `/${locale}/cv.pdf`, label: "CV", external: true },
-  { href: "mailto:eu@andrebrandao.dev", label: t({ en: "Contact", pt: "Contato" }), external: true },
-];
 ---
 
 <header class="wrap header">
@@ -33,31 +21,18 @@ const nav = [
     <span>André Brandão</span>
   </a>
 
-  <nav class="nav" aria-label="Main">
-    {
-      nav.map((item) => (
-        <a
-          href={item.href}
-          target={item.external ? "_blank" : undefined}
-          rel={item.external ? "noopener" : undefined}
-          class:list={["nav-link", !item.external && isActive(item.href) && "is-active"]}
-          aria-current={!item.external && isActive(item.href) ? "page" : undefined}
-        >
-          {item.label}
-        </a>
-      ))
-    }
+  <div class="nav">
     <LocaleSwitch />
-  </nav>
+    <ThemeToggle />
+  </div>
 </header>
 
 <style is:global>
   .header {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem 1.5rem;
+    gap: 1.5rem;
     padding-block: 2rem 0;
   }
   .brand {
@@ -75,8 +50,8 @@ const nav = [
   }
   .nav {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1.1rem;
+    align-items: center;
+    gap: 1rem;
     font-size: 0.9375rem;
   }
   .nav-link {

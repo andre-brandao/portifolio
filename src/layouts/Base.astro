@@ -55,6 +55,11 @@ const fontHref =
     <link rel="icon" sizes="192x192" href="/android-chrome-192x192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      // Apply a stored light/dark choice before anything paints (see ThemeToggle).
+      const t = localStorage.theme;
+      if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+    </script>
     <meta
       name="theme-color"
       media="(prefers-color-scheme: light)"

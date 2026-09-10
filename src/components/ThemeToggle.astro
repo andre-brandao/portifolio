@@ -1,0 +1,79 @@
+---
+// Light/dark toggle. A choice is stored in localStorage and applied as
+// data-theme on <html>; with no choice the site follows the system setting.
+---
+
+<button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+  <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+  </svg>
+  <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+  </svg>
+</button>
+
+<script>
+  type Theme = "light" | "dark";
+
+  const stored = (): Theme | undefined => {
+    const v = localStorage.theme;
+    return v === "light" || v === "dark" ? v : undefined;
+  };
+
+  const apply = (doc: Document, theme: Theme | undefined) => {
+    if (theme) doc.documentElement.dataset.theme = theme;
+    else delete doc.documentElement.dataset.theme;
+  };
+
+  const effective = (): Theme =>
+    (document.documentElement.dataset.theme as Theme | undefined) ??
+    (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+  const bind = () => {
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const next: Theme = effective() === "dark" ? "light" : "dark";
+        localStorage.theme = next;
+        apply(document, next);
+      });
+    });
+  };
+
+  bind();
+  // Keep the choice across view transitions without a flash: set it on the
+  // incoming document before it is swapped in.
+  document.addEventListener("astro:before-swap", (e) => apply(e.newDocument, stored()));
+  document.addEventListener("astro:after-swap", bind);
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem;
+    color: var(--muted);
+    transition: color 0.15s ease;
+  }
+  .theme-toggle:hover {
+    color: var(--fg);
+  }
+  .icon-moon {
+    display: none;
+  }
+  /* Show the moon while light, the sun while dark */
+  :global(:root[data-theme="dark"]) .icon-moon {
+    display: block;
+  }
+  :global(:root[data-theme="dark"]) .icon-sun {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .icon-moon {
+      display: block;
+    }
+    :global(:root:not([data-theme="light"])) .icon-sun {
+      display: none;
+    }
+  }
+</style>
