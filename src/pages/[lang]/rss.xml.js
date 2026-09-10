@@ -18,7 +18,7 @@ export async function GET(context) {
 		? SITE_DESCRIPTION
 		: SITE_DESCRIPTION[locale];
 
-	const posts = await getCollection('blog', ({ id }) => {
+	const posts = await getCollection('projects', ({ id }) => {
 		return id.split("/")[0] == locale;
 	});
 	posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -31,7 +31,7 @@ export async function GET(context) {
 			title: post.data.title,
 			pubDate: post.data.date,
 			description: post.data.description,
-			link: `/${locale}/blog/${post.id.split("/").slice(1).join("/")}/`,
+			link: `/${locale}/projects/${post.id.split("/").slice(1).join("/")}/`,
 		})),
 	});
 }

@@ -6,7 +6,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getCollection } from 'astro:content'
 
 import ProjectRow from '@/components/ProjectRow.astro'
-import Badges from '@/components/Badges.astro'
+import Certifications from '@/components/Certifications.astro'
 import Globe from '@/components/globe/Globe.astro'
 
 const locale = Astro.currentLocale as Lang
@@ -15,12 +15,12 @@ const t = useTranslations(locale)
 export const getStaticPaths = () =>
   Object.keys(LOCALES).map((lang) => ({ params: { lang } }))
 
-const projects = (await getCollection('blog'))
+const projects = (await getCollection('projects'))
   .filter((post) => post.id.split('/')[0] === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 4)
 
-const projectsUrl = getRelativeLocaleUrl(locale, 'blog')
+const projectsUrl = getRelativeLocaleUrl(locale, 'projects')
 const travelUrl = getRelativeLocaleUrl(locale, 'travel')
 ---
 
@@ -66,7 +66,7 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
           desc={post.data.description}
           img={post.data.cover}
           year={post.data.date.getUTCFullYear()}
-          href={`/${locale}/blog/${slug.join('/')}/`}
+          href={`/${locale}/projects/${slug.join('/')}/`}
         />
       )
     })}
@@ -78,7 +78,7 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
   </p>
 
   <h2 class="label">{t({ en: 'certifications', pt: 'certificações' })}</h2>
-  <Badges lang={locale} />
+  <Certifications lang={locale} />
 
   <h2 class="label">{t({ en: 'places', pt: 'lugares' })}</h2>
   <Globe visited={VISITED_COUNTRIES} />
