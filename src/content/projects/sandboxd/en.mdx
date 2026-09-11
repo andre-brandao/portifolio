@@ -21,6 +21,8 @@ github: https://github.com/developing-software/sandboxd
 
 Sandboxd runs disposable container sandboxes on machines you manage, with a terminal and port forwarding in the browser. The idea is to hand a repository and a prompt to a coding agent, or spin up a notebook, an editor or a preview environment, and keep watching and controlling it from a web page, with no setup on the client side.
 
+It started as a piece of [Dev Agents](/en/projects/agents/), which needed a safe, disposable place to run agents, and grew into a project of its own.
+
 Each sandbox is a single container running one command in a PTY. It goes away when the command exits, when it sits idle for too long, or when you delete it.
 
 - **sandboxd-api**: the control plane. Keeps sandbox state and serves the terminals and previews.

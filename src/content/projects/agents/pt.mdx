@@ -1,0 +1,49 @@
+---
+title: 'Dev Agents'
+description: 'Planos aprovados por humanos, executados por agentes de IA e acompanhados por eventos do repositório'
+date: 2026-07-01
+cover: "./overview.png"
+tags:
+  - TypeScript
+  - Bun
+  - SST
+  - Agentes de IA
+github: https://github.com/developing-software/agents
+---
+
+<details>
+    <summary>Em desenvolvimento, pausado por enquanto</summary>
+    O Dev Agents ainda precisa de trabalho. Construí-lo foi o que me levou a começar o <a href="/pt/projects/sandboxd/">Sandboxd</a>, e o desenvolvimento continua quando o Sandboxd estiver mais maduro. Acompanhe no <a href="https://github.com/developing-software/agents">GitHub</a>.
+</details>
+
+## Visão geral
+
+O Dev Agents é uma plataforma para rodar trabalho de desenvolvimento feito por IA dentro de bases de código existentes, sem perder de vista o que os agentes estão fazendo. O fluxo tem três passos: uma pessoa revisa e aprova um plano, os agentes o implementam, e tudo o que eles fazem é acompanhado por eventos do repositório, verificações de saúde e revisões de código.
+
+Ele é feito para repositórios brownfield, aqueles com histórico, convenções e coisas que quebram, e não para demos do zero.
+
+![Visão geral dos agentes: execuções, custo, tokens e taxa de aprovação nos checks por agente](./overview.png)
+
+- **Planejamento**: os planos são escritos e esperam a aprovação de uma pessoa.
+- **Implementação**: os planos aprovados vão para os agentes, que fazem o trabalho no repositório.
+- **Acompanhamento**: pull requests, checks e revisões voltam para o console, então nada acontece sem ser visto.
+
+O repositório é um monorepo em Bun com a lógica central, funções serverless para a API e os webhooks, a UI do console e as actions de workflow, implantado com SST.
+
+![Árvore de eventos de um plano, das execuções dos agentes até o merge do pull request](./events.png)
+
+## O mesmo plano, vários agentes
+
+Um plano pode ir para mais de um agente ao mesmo tempo, hoje Claude Code, Codex e Opencode. Cada execução ganha seu próprio pull request, checks, custo e uma nota do juiz, então os resultados ficam lado a lado e o melhor é o que faz merge.
+
+![Três agentes no mesmo plano, comparados lado a lado](./compare.png)
+
+## CI/CD e ambientes de preview
+
+Toda execução de agente termina em um pull request normal. O bot abre o PR com o prompt, o modelo, o custo e as linhas alteradas, os workflows de lint, teste e typecheck rodam nele, e um ambiente de preview é implantado só para aquele PR, com URLs próprias de API, auth e console. Revisar o trabalho de um agente é clicar em um link, não fazer checkout de uma branch.
+
+![Um pull request aberto por um agente, com o preview do SST implantado](./pr.png)
+
+## Onde entra o Sandboxd
+
+Agentes precisam de um lugar seguro para rodar: um ambiente descartável com o repositório clonado, um terminal que dá para observar e nada para limpar depois. Essa necessidade virou um projeto próprio, o [Sandboxd](/pt/projects/sandboxd/), e o Dev Agents vai rodar em cima dele.
