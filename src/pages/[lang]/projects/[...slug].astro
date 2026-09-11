@@ -3,6 +3,7 @@ import Layout from "@/layouts/Base.astro";
 import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
 import { useTranslations, type Lang } from "@/i18n";
+import TagList from "@/components/TagList.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("projects", ({ data }) => !data.draft);
@@ -33,8 +34,10 @@ const date = post.data.date.toLocaleDateString(lang, {
       <h1 class="title" transition:name={title}>{title}</h1>
       <p class="meta post-meta">
         <time datetime={post.data.date.toISOString()}>{date}</time>
-        {post.data.tags.length > 0 && <span> · {post.data.tags.join(", ")}</span>}
       </p>
+      <div class="post-tags">
+        <TagList tags={post.data.tags} locale={lang as string} />
+      </div>
     </div>
     {
       post.data.github && (
@@ -94,6 +97,9 @@ const date = post.data.date.toLocaleDateString(lang, {
     border-color: var(--rule-strong);
   }
   .post-meta {
+    margin-top: 0.6rem;
+  }
+  .post-tags {
     margin-top: 0.6rem;
   }
   .post-cover {

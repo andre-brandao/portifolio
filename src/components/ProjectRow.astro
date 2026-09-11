@@ -2,10 +2,12 @@
 // One project in a list: small square thumbnail, title, one-line description,
 // year and an optional GitHub link on the right. The title link is stretched
 // over the whole row, so the row stays clickable while the GitHub icon remains
-// a separate, valid link.
+// a separate, valid link. Tags render as a line of icons/badges under the
+// description (see TagList).
 
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
+import TagList from "@/components/TagList.astro";
 
 interface Props {
   title: string;
@@ -14,11 +16,14 @@ interface Props {
   img?: ImageMetadata;
   year?: number | string;
   github?: string;
+  tags?: string[];
+  /** Locale used to build tag page links */
+  locale?: string;
   /** URL of a larger image shown by ProjectList while hovering */
   preview?: string;
 }
 
-const { title, desc, href, img, year, github, preview } = Astro.props;
+const { title, desc, href, img, year, github, tags = [], locale = "en", preview } = Astro.props;
 ---
 
 <div class="row" data-preview={preview}>
@@ -39,6 +44,13 @@ const { title, desc, href, img, year, github, preview } = Astro.props;
   <span class="row-main">
     <a href={href} class="row-title" transition:name={title}>{title}</a>
     <span class="row-desc">{desc}</span>
+    {
+      tags.length > 0 && (
+        <span class="row-tags">
+          <TagList {tags} {locale} />
+        </span>
+      )
+    }
   </span>
   <span class="row-aside meta">
     {year && <span>{year}</span>}
@@ -66,6 +78,9 @@ const { title, desc, href, img, year, github, preview } = Astro.props;
     display: flex;
     flex-direction: column;
     min-width: 0;
+  }
+  .row-tags {
+    margin-top: 0.4rem;
   }
   .row-aside {
     display: inline-flex;

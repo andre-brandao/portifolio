@@ -1,0 +1,75 @@
+---
+// Compact line of project tags. Tags with a known brand icon render as a
+// small monochrome SVG, the rest as a tiny text badge. Every tag links to
+// its tag page. Links sit above the stretched row link in ProjectRow.
+
+import { tagHref, tagIcon } from "@/tags";
+
+interface Props {
+  tags: string[];
+  locale: string;
+}
+
+const { tags, locale } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <ul class="tags">
+      {tags.map((tag) => {
+        const Icon = tagIcon(tag);
+        return (
+          <li>
+            <a
+              href={tagHref(locale, tag)}
+              class:list={["tag", Icon ? "tag--icon" : "tag--badge"]}
+              title={tag}
+              aria-label={tag}
+            >
+              {Icon ? <Icon width={14} height={14} aria-hidden="true" /> : tag}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  )
+}
+
+<style>
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .tag {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    color: var(--muted);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .tag:hover {
+    color: var(--fg);
+  }
+  .tag--icon {
+    height: 1.25rem;
+    padding-inline: 0.1rem;
+  }
+  .tag--badge {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    line-height: 1.25rem;
+    padding: 0 0.35rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .tag--badge:hover {
+    border-color: var(--rule-strong);
+  }
+</style>

@@ -25,6 +25,8 @@ const rows = await Promise.all(
       img: post.data.cover,
       year: post.data.date.getUTCFullYear(),
       github: post.data.github,
+      tags: post.data.tags,
+      locale,
       href: `/${locale}/projects/${slug}/`,
       preview,
     };

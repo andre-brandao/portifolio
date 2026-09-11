@@ -1,0 +1,76 @@
+---
+// Every project of this locale that carries a given tag.
+
+import Layout from "@/layouts/Base.astro";
+import ProjectList from "@/components/ProjectList.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { useTranslations, type Lang } from "@/i18n";
+import { tagIcon, tagSlug } from "@/tags";
+
+type Project = CollectionEntry<"projects">;
+
+export async function getStaticPaths() {
+  const posts = await getCollection("projects", ({ data }) => !data.draft);
+  const groups = new Map<string, { lang: string; tag: string; posts: Project[] }>();
+
+  for (const post of posts) {
+    const lang = post.id.split("/")[1];
+    for (const tag of post.data.tags) {
+      const key = `${lang}/${tagSlug(tag)}`;
+      const group = groups.get(key) ?? { lang, tag, posts: [] };
+      group.posts.push(post);
+      groups.set(key, group);
+    }
+  }
+
+  return [...groups.entries()].map(([key, group]) => ({
+    params: { lang: group.lang, tag: key.split("/")[1] },
+    props: {
+      tag: group.tag,
+      posts: group.posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { lang } = Astro.params;
+const { tag, posts } = Astro.props;
+const t = useTranslations(lang as Lang);
+const Icon = tagIcon(tag);
+
+const title = `${t({ en: "Tagged", pt: "Tag" })} ${tag}`;
+const count = posts.length;
+---
+
+<Layout {title}>
+  <h1 class="title tag-title">
+    {Icon && <Icon width={18} height={18} aria-hidden="true" class="tag-title-icon" />}
+    {title}
+  </h1>
+  <p class="lede">
+    {
+      count === 1
+        ? t({ en: "One project. See ", pt: "Um projeto. Veja " })
+        : t({ en: `${count} projects. See `, pt: `${count} projetos. Veja ` })
+    }
+    <a class="link" href={`/${lang}/projects/`}>{t({ en: "all projects", pt: "todos os projetos" })}</a>.
+  </p>
+
+  <div class="list">
+    <ProjectList projects={posts} locale={lang as string} />
+  </div>
+</Layout>
+
+<style>
+  .tag-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .tag-title-icon {
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .list {
+    margin-top: 2.5rem;
+  }
+</style>
