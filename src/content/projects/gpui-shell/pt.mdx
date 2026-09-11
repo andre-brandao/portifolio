@@ -1,15 +1,24 @@
 ---
-title: 'GPUi Shell'
-description: 'Uma shell de desktop para Wayland escrita em Rust com GPUI, o framework de interface do Zed'
+title: "GPUi Shell"
+description: "Uma shell de desktop para Wayland escrita em Rust com GPUI, o framework de interface do Zed"
 date: 2026-07-31
 cover: "./cover.png"
 previews:
-  - ./bar.png
+  - ./launcher-app.png
+  - ./launcher-search.png
+  - ./launcher-theme.png
+  - ./launcher-help.png
 tags:
   - Linux
   - Rust
 github: https://github.com/andre-brandao/gpui-shell
 ---
+
+import Shots from "@/components/Shots.astro";
+import launcherApp from "./launcher-app.png";
+import launcherSearch from "./launcher-search.png";
+import launcherTheme from "./launcher-theme.png";
+import launcherHelp from "./launcher-help.png";
 
 ## Visão geral
 
@@ -21,6 +30,11 @@ Uma shell de desktop para compositores Wayland, escrita em Rust sobre o [GPUI](h
 - **Launcher**: apps, comandos de shell, workspaces, tema, papel de parede, busca na web
 - **Central de controle**: áudio, brilho, Wi-Fi, Bluetooth, energia, mídia, notificações com não perturbe
 - **OSD**: volume e brilho ao apertar as teclas
+
+O launcher é uma única caixa de texto com prefixos para cada modo: `@` para apps, `!` para busca na web com um bang por provedor, `~` para temas, `?` para a lista de comandos.
+
+<Shots images={[launcherApp, launcherSearch]} alt="Launcher do GPUi Shell" />
+<Shots images={[launcherTheme, launcherHelp]} alt="Launcher do GPUi Shell" />
 
 ![Demonstração](./showcase.gif)
 

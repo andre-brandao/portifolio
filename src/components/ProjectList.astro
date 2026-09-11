@@ -55,6 +55,7 @@ const rows = await Promise.all(
   </ol>
   <div class="peek" aria-hidden="true">
     <img alt="" />
+    <div class="peek-dots"></div>
   </div>
 </div>
 
@@ -73,7 +74,8 @@ const rows = await Promise.all(
 
         const peek = list.querySelector<HTMLElement>('.peek')
         const img = peek?.querySelector('img')
-        if (!peek || !img) return
+        const dots = peek?.querySelector<HTMLElement>('.peek-dots')
+        if (!peek || !img || !dots) return
 
         let x = 0
         let y = 0
@@ -92,8 +94,11 @@ const rows = await Promise.all(
 
         // carousel state for the hovered row
         let timer = 0
-        const show = (src: string) => {
-          if (img.getAttribute('src') !== src) img.src = src
+        const show = (srcs: string[], i: number) => {
+          if (img.getAttribute('src') !== srcs[i]) img.src = srcs[i]
+          dots.childNodes.forEach((d, j) =>
+            (d as HTMLElement).classList.toggle('is-on', j === i),
+          )
         }
         const stop = () => {
           clearInterval(timer)
@@ -101,13 +106,17 @@ const rows = await Promise.all(
         }
         const start = (srcs: string[]) => {
           stop()
-          show(srcs[0])
+          // one dot per frame; none at all for a single image
+          dots.replaceChildren(
+            ...(srcs.length > 1 ? srcs : []).map(() => document.createElement('span')),
+          )
+          show(srcs, 0)
           if (srcs.length < 2 || still) return
           // warm the cache so later frames swap in without a blank flash
           srcs.slice(1).forEach((s) => (new Image().src = s))
           let i = 0
           timer = window.setInterval(
-            () => show(srcs[(i = (i + 1) % srcs.length)]),
+            () => show(srcs, (i = (i + 1) % srcs.length)),
             INTERVAL,
           )
         }

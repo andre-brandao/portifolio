@@ -318,6 +318,27 @@ h4 {
   width: 100%;
   height: auto;
 }
+/* carousel position: one small dot per frame, filled in by ProjectList's
+   script; the strip collapses when there is a single image */
+.peek-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0 0.5rem;
+}
+.peek-dots:empty {
+  display: none;
+}
+.peek-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--rule-strong);
+  transition: background 0.15s ease;
+}
+.peek-dots span.is-on {
+  background: var(--muted);
+}
 .peek-list.is-peeking .peek {
   opacity: 1;
 }
