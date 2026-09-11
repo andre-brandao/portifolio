@@ -31,16 +31,3 @@ Cada sandbox é um único contêiner rodando um comando em um PTY. Ele desaparec
 - **UI de referência**: um cliente que mostra o que a API consegue fazer.
 
 Os dois daemons são binários estáticos em Go. O repositório traz pacotes Nix e módulos NixOS, OpenTofu para a infraestrutura, Traefik para o ingress e um SDK em TypeScript gerado a partir da especificação OpenAPI.
-
-## Experimente
-
-```bash
-go run ./scripts/dev
-```
-
-Ou compile os daemons com Nix:
-
-```bash
-nix build .#api
-nix build .#worker
-```

@@ -31,16 +31,3 @@ Each sandbox is a single container running one command in a PTY. It goes away wh
 - **Reference UI**: a client that shows what the API can do.
 
 Both daemons are static Go binaries. The repo ships Nix packages and NixOS modules, OpenTofu for infrastructure, Traefik for ingress, and a TypeScript SDK generated from the OpenAPI spec.
-
-## Try it
-
-```bash
-go run ./scripts/dev
-```
-
-Or build the daemons with Nix:
-
-```bash
-nix build .#api
-nix build .#worker
-```
