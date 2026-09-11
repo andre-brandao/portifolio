@@ -8,32 +8,43 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 const locale = Astro.currentLocale as Lang;
 ---
 
-<header class="wrap header">
-  <a href={getRelativeLocaleUrl(locale, "/")} class="brand">
-    <Image
-      src="/profile.jpeg"
-      width={56}
-      height={56}
-      format="webp"
-      alt=""
-      class="brand-photo"
-    />
-    <span>André Brandão</span>
-  </a>
+<header class="header">
+  <div class="wrap header-inner">
+    <a href={getRelativeLocaleUrl(locale, "/")} class="brand">
+      <Image
+        src="/profile.jpeg"
+        width={56}
+        height={56}
+        format="webp"
+        alt=""
+        class="brand-photo"
+      />
+      <span>André Brandão</span>
+    </a>
 
-  <div class="nav">
-    <LocaleSwitch />
-    <ThemeToggle />
+    <div class="nav">
+      <LocaleSwitch />
+      <ThemeToggle />
+    </div>
   </div>
 </header>
 
 <style is:global>
+  /* Pinned to the top on every page. The full-width bar keeps content
+     scrolling beneath it hidden, while the rule matches the footer width. */
   .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+  }
+  .header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-block: 2rem 0;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--rule);
   }
   .brand {
     display: inline-flex;

@@ -1,33 +1,41 @@
 ---
-import { LOCALES, useTranslations, type Lang } from "@/i18n";
-import Layout from "@/layouts/Base.astro";
-import { getCollection } from "astro:content";
+import { LOCALES, useTranslations, type Lang } from '@/i18n'
+import Layout from '@/layouts/Base.astro'
+import { getCollection } from 'astro:content'
 
-import ProjectList from "@/components/ProjectList.astro";
+import ProjectList from '@/components/ProjectList.astro'
 
-const locale = Astro.currentLocale as Lang;
-const t = useTranslations(locale);
+const locale = Astro.currentLocale as Lang
+const t = useTranslations(locale)
 
 export const getStaticPaths = () =>
-  Object.keys(LOCALES).map((lang) => ({ params: { lang } }));
+  Object.keys(LOCALES).map((lang) => ({ params: { lang } }))
 
-const posts = (await getCollection("projects", ({ data }) => !data.draft))
-  .filter((post) => post.id.split("/")[1] === locale)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const posts = (await getCollection('projects', ({ data }) => !data.draft))
+  .filter((post) => post.id.split('/')[1] === locale)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 
-const title = t({ en: "Projects", pt: "Projetos" });
+const title = t({ en: 'Projects', pt: 'Projetos' })
 ---
 
 <Layout {title}>
-  <h1 class="title" transition:name={title}>{title}</h1>
+  <h1 class="title" transition:name={title}>
+    {title}
+  </h1>
   <p class="lede">
-    {
-      t({
-        en: "Things I have built over the years. Plenty more that I contributed to lives on my",
-        pt: "Coisas que construí ao longo dos anos. Muito mais em que contribuí está no meu",
-      })
-    }
-    <a class="link" href="https://github.com/andre-brandao" target="_blank" rel="noopener">GitHub</a>.
+    {t({
+      en: 'Things I have built over the years. Plenty more that I contributed to on my ',
+      pt: 'Coisas que construí ao longo dos anos. Muito mais em que contribuí está no meu ',
+    })}
+    <a
+      class="link"
+      href="https://github.com/andre-brandao"
+      target="_blank"
+      rel="noopener"
+    >
+      GitHub
+    </a>
+    .
   </p>
 
   <div class="list">
