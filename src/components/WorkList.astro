@@ -58,18 +58,18 @@ const work = (await getCollection('work')).sort(
         )}
       </div>
 
-      <span class="work-period row-year meta">{t(data.period)}</span>
+      <span class="work-period meta">{t(data.period)}</span>
     </li>
   ))}
 </ol>
 
 <style>
   .work-list {
-    --year-w: 7.25rem;
     margin-top: 0;
   }
 
   .work-row {
+    --row-pad: 1.25rem;
     display: grid;
     grid-template-columns: 2.5rem minmax(0, 1fr) var(--year-w);
     align-items: start;
@@ -163,7 +163,10 @@ const work = (await getCollection('work')).sort(
 
   .work-period {
     position: relative;
+    justify-self: center;
     padding-top: 0.2rem;
+    padding-inline: 0.35rem;
+    background: var(--bg);
     color: var(--faint);
     white-space: nowrap;
   }
@@ -176,10 +179,6 @@ const work = (await getCollection('work')).sort(
   }
 
   @media (max-width: 30rem) {
-    .work-list {
-      --year-w: 6.25rem;
-    }
-
     .work-row {
       column-gap: 0.75rem;
     }
