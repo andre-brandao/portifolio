@@ -1,0 +1,187 @@
+---
+import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { useTranslations, type Lang } from '@/i18n'
+
+interface Props {
+  locale: Lang
+}
+
+const { locale } = Astro.props
+const t = useTranslations(locale)
+const work = (await getCollection('work')).sort(
+  (a, b) => a.data.order - b.data.order,
+)
+---
+
+<ol class="work-list timeline">
+  {work.map(({ data }) => (
+    <li class="work-row row">
+      <span class="work-mark" aria-hidden="true">
+        {data.logo ? (
+          <Image src={data.logo} width={80} height={80} alt="" />
+        ) : (
+          <span class="work-mark-text">{data.mark}</span>
+        )}
+      </span>
+
+      <div class="work-main">
+        {data.url ? (
+          <a
+            class="work-company"
+            href={data.url}
+            target="_blank"
+            rel="noopener"
+          >
+            {data.company}
+            <span class="external" aria-hidden="true">↗</span>
+          </a>
+        ) : (
+          <span class="work-company">{data.company}</span>
+        )}
+        <span class="work-role">{t(data.role)}</span>
+        {data.projects && (
+          <span class="work-projects meta">
+            {data.projects.map((project, index) => (
+              <>
+                {index > 0 && <span aria-hidden="true">·</span>}
+                <a
+                  class="link"
+                  href={getRelativeLocaleUrl(locale, `projects/${project.slug}`)}
+                >
+                  {t(project.label)}
+                </a>
+              </>
+            ))}
+          </span>
+        )}
+      </div>
+
+      <span class="work-period row-year meta">{t(data.period)}</span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .work-list {
+    --year-w: 7.25rem;
+    margin-top: 0;
+  }
+
+  .work-row {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) var(--year-w);
+    align-items: start;
+    gap: 0.9rem 1rem;
+    padding-block: 1.25rem;
+    animation: row-in 0.45s ease-out both;
+  }
+
+  .work-row:nth-child(2) {
+    animation-delay: 70ms;
+  }
+
+  .work-mark {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: 0.1rem;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    background: var(--bg-2);
+  }
+
+  .work-mark :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .work-mark-text {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    color: #1b2a28;
+    background: #bce566;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: -0.06em;
+  }
+
+  .work-main {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .work-company {
+    width: fit-content;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  a.work-company:hover {
+    text-decoration-color: var(--rule-strong);
+  }
+
+  .external {
+    display: inline-block;
+    margin-left: 0.3em;
+    color: var(--faint);
+    font-size: 0.75em;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  a.work-company:hover .external {
+    color: var(--fg);
+    transform: translate(1px, -1px);
+  }
+
+  .work-role {
+    margin-top: 0.05rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .work-projects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    margin-top: 0.45rem;
+  }
+
+  .work-projects > span {
+    color: var(--faint);
+  }
+
+  .work-period {
+    position: relative;
+    padding-top: 0.2rem;
+    color: var(--faint);
+    white-space: nowrap;
+  }
+
+  @keyframes row-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .work-list {
+      --year-w: 6.25rem;
+    }
+
+    .work-row {
+      column-gap: 0.75rem;
+    }
+  }
+</style>

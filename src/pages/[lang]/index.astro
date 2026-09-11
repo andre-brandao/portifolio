@@ -8,6 +8,7 @@ import { getCollection } from 'astro:content'
 import ProjectList from '@/components/ProjectList.astro'
 import Certifications from '@/components/Certifications.astro'
 import Globe from '@/components/globe/Globe.astro'
+import WorkList from '@/components/WorkList.astro'
 
 const locale = Astro.currentLocale as Lang
 const t = useTranslations(locale)
@@ -55,6 +56,9 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
       </a>
     </p>
   </section>
+
+  <h2 class="label">{t({ en: 'work', pt: 'experiência' })}</h2>
+  <WorkList {locale} />
 
   <h2 class="label">{t({ en: 'projects', pt: 'projetos' })}</h2>
   <div class="teaser">

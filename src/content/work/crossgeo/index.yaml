@@ -1,0 +1,17 @@
+company: CrossGeo
+role:
+  en: Co-founder · Full Stack Developer
+  pt: Cofundador · Desenvolvedor Full Stack
+period:
+  en: 2024 — 2026
+logo: ./logo.svg
+projects:
+  - label:
+      en: Duarte
+      pt: Duarte
+    slug: duarte
+  - label:
+      en: Rota do Futuro
+      pt: Rota do Futuro
+    slug: rota-do-futuro
+order: 2
