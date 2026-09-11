@@ -12,6 +12,8 @@ const projects = defineCollection({
       description: z.string(),
       date: z.coerce.date(),
       cover: image().optional(),
+      // screenshots the hover preview in project lists cycles through, after the cover
+      previews: z.array(image()).optional(),
       tags: z.array(z.string()),
       // optional repository, shown as an icon button in the post header
       github: z.url().optional(),

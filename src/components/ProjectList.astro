@@ -1,28 +1,37 @@
 ---
 // List of projects drawn as a timeline: a hairline runs down the year column
 // on the right and each year sits on it as a node. On devices with a pointer,
-// hovering a row floats a larger preview of its cover next to the cursor and
-// dims the other rows.
+// hovering a row floats a preview next to the cursor and dims the other rows.
+// The preview cycles through the post's cover and its `previews` frontmatter
+// images, like a small carousel.
 
-import { getImage } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
-import ProjectRow from "@/components/ProjectRow.astro";
+import { getImage } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+import ProjectRow from '@/components/ProjectRow.astro'
 
 interface Props {
-  projects: CollectionEntry<"projects">[];
-  locale: string;
+  projects: CollectionEntry<'projects'>[]
+  locale: string
   /** Let the line run past the last node (for a truncated list that fades out) */
-  open?: boolean;
+  open?: boolean
 }
 
-const { projects, locale, open = false } = Astro.props;
+const { projects, locale, open = false } = Astro.props
 
 const rows = await Promise.all(
   projects.map(async (post) => {
-    const [slug] = post.id.split("/");
-    const preview = post.data.cover
-      ? (await getImage({ src: post.data.cover, width: 640, format: "webp" })).src
-      : undefined;
+    const [slug] = post.id.split('/')
+    const cover = post.data.cover
+    const frames = [
+      ...(cover ? [cover] : []),
+      ...(post.data.previews ?? []).filter((img) => img.src !== cover?.src),
+    ]
+    const previews = await Promise.all(
+      frames.map(
+        async (src) =>
+          (await getImage({ src, width: 640, format: 'webp' })).src,
+      ),
+    )
     return {
       title: post.data.title,
       desc: post.data.description,
@@ -32,15 +41,17 @@ const rows = await Promise.all(
       tags: post.data.tags,
       locale,
       href: `/${locale}/projects/${slug}/`,
-      preview,
-    };
+      previews,
+    }
   }),
-);
+)
 ---
 
 <div class="peek-list" data-peek-list>
-  <ol class:list={["rows", "timeline", open && "timeline--open"]}>
-    {rows.map((row) => <ProjectRow {...row} />)}
+  <ol class:list={['rows', 'timeline', open && 'timeline--open']}>
+    {rows.map((row) => (
+      <ProjectRow {...row} />
+    ))}
   </ol>
   <div class="peek" aria-hidden="true">
     <img alt="" />
@@ -48,48 +59,79 @@ const rows = await Promise.all(
 </div>
 
 <script>
+  const INTERVAL = 1500
+
   function init() {
-    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    document.querySelectorAll<HTMLElement>("[data-peek-list]").forEach((list) => {
-      if (list.dataset.peekReady) return;
-      list.dataset.peekReady = "1";
+    document
+      .querySelectorAll<HTMLElement>('[data-peek-list]')
+      .forEach((list) => {
+        if (list.dataset.peekReady) return
+        list.dataset.peekReady = '1'
 
-      const peek = list.querySelector<HTMLElement>(".peek");
-      const img = peek?.querySelector("img");
-      if (!peek || !img) return;
+        const peek = list.querySelector<HTMLElement>('.peek')
+        const img = peek?.querySelector('img')
+        if (!peek || !img) return
 
-      let x = 0;
-      let y = 0;
-      let frame = 0;
-      const place = () => {
-        peek.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`;
-        frame = 0;
-      };
+        let x = 0
+        let y = 0
+        let frame = 0
+        const place = () => {
+          peek.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`
+          frame = 0
+        }
 
-      list.addEventListener("pointermove", (e) => {
-        const r = list.getBoundingClientRect();
-        x = e.clientX - r.left;
-        y = e.clientY - r.top - 14;
-        if (!frame) frame = requestAnimationFrame(place);
-      });
+        list.addEventListener('pointermove', (e) => {
+          const r = list.getBoundingClientRect()
+          x = e.clientX - r.left
+          y = e.clientY - r.top - 14
+          if (!frame) frame = requestAnimationFrame(place)
+        })
 
-      list.querySelectorAll<HTMLElement>(".row").forEach((row) => {
-        row.addEventListener("pointerenter", () => {
-          const src = row.dataset.preview;
-          if (src) {
-            if (img.getAttribute("src") !== src) img.src = src;
-            list.classList.add("is-peeking");
-          } else {
-            list.classList.remove("is-peeking");
-          }
-        });
-      });
+        // carousel state for the hovered row
+        let timer = 0
+        const show = (src: string) => {
+          if (img.getAttribute('src') !== src) img.src = src
+        }
+        const stop = () => {
+          clearInterval(timer)
+          timer = 0
+        }
+        const start = (srcs: string[]) => {
+          stop()
+          show(srcs[0])
+          if (srcs.length < 2 || still) return
+          // warm the cache so later frames swap in without a blank flash
+          srcs.slice(1).forEach((s) => (new Image().src = s))
+          let i = 0
+          timer = window.setInterval(
+            () => show(srcs[(i = (i + 1) % srcs.length)]),
+            INTERVAL,
+          )
+        }
 
-      list.addEventListener("pointerleave", () => list.classList.remove("is-peeking"));
-    });
+        list.querySelectorAll<HTMLElement>('.row').forEach((row) => {
+          const srcs: string[] = JSON.parse(row.dataset.previews || '[]')
+          row.addEventListener('pointerenter', () => {
+            if (srcs.length) {
+              start(srcs)
+              list.classList.add('is-peeking')
+            } else {
+              stop()
+              list.classList.remove('is-peeking')
+            }
+          })
+        })
+
+        list.addEventListener('pointerleave', () => {
+          stop()
+          list.classList.remove('is-peeking')
+        })
+      })
   }
 
-  init();
-  document.addEventListener("astro:after-swap", init);
+  init()
+  document.addEventListener('astro:after-swap', init)
 </script>

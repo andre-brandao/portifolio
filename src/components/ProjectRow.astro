@@ -20,14 +20,14 @@ interface Props {
   tags?: string[];
   /** Locale used to build tag page links */
   locale?: string;
-  /** URL of a larger image shown by ProjectList while hovering */
-  preview?: string;
+  /** URLs of larger images ProjectList cycles through while hovering */
+  previews?: string[];
 }
 
-const { title, desc, href, img, year, github, tags = [], locale = "en", preview } = Astro.props;
+const { title, desc, href, img, year, github, tags = [], locale = "en", previews = [] } = Astro.props;
 ---
 
-<li class="row" data-preview={preview}>
+<li class="row" data-previews={previews.length ? JSON.stringify(previews) : undefined}>
   <span class:list={["row-thumb", !img && "row-thumb--empty"]}>
     {
       img && (
