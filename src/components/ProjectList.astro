@@ -1,6 +1,8 @@
 ---
-// List of projects. On devices with a pointer, hovering a row floats a
-// larger preview of its cover next to the cursor and dims the other rows.
+// List of projects drawn as a timeline: a hairline runs down the year column
+// on the right and each year sits on it as a node. On devices with a pointer,
+// hovering a row floats a larger preview of its cover next to the cursor and
+// dims the other rows.
 
 import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
@@ -9,9 +11,11 @@ import ProjectRow from "@/components/ProjectRow.astro";
 interface Props {
   projects: CollectionEntry<"projects">[];
   locale: string;
+  /** Let the line run past the last node (for a truncated list that fades out) */
+  open?: boolean;
 }
 
-const { projects, locale } = Astro.props;
+const { projects, locale, open = false } = Astro.props;
 
 const rows = await Promise.all(
   projects.map(async (post) => {
@@ -34,8 +38,10 @@ const rows = await Promise.all(
 );
 ---
 
-<div class="rows peek-list" data-peek-list>
-  {rows.map((row) => <ProjectRow {...row} />)}
+<div class="peek-list" data-peek-list>
+  <ol class:list={["rows", "timeline", open && "timeline--open"]}>
+    {rows.map((row) => <ProjectRow {...row} />)}
+  </ol>
   <div class="peek" aria-hidden="true">
     <img alt="" />
   </div>

@@ -24,6 +24,11 @@
   --measure: 38rem;
   --gutter: 1.25rem;
   --radius: 6px;
+
+  /* project list: thumbnail size and the fixed width of the year column,
+     which the timeline line runs through */
+  --thumb: 2.25rem;
+  --year-w: 2.75rem;
 }
 
 /* Dark: follows the system unless a choice is stored as data-theme (ThemeToggle) */
@@ -195,18 +200,41 @@ h4 {
   text-decoration-color: currentColor;
 }
 
-/* A list of rows separated by hairlines, each row a link */
-.rows {
-  border-top: 1px solid var(--rule);
-}
+/* A list of rows, each row a link */
 .row {
+  --row-pad: 1rem;
   position: relative;
   display: grid;
   grid-template-columns: auto 1fr auto;
   column-gap: 1rem;
   align-items: start;
-  padding: 0.9rem 0;
-  border-bottom: 1px solid var(--rule);
+  padding: var(--row-pad) 0;
+}
+
+/* Timeline: one hairline down the year column on the right, each year sits on
+   it as a node. Drawn per row so the first and last rows can stop at their node.
+   Node centre = row padding + aside padding + half a .meta line (0.75rem x 1.6). */
+.row {
+  --node-y: calc(var(--row-pad) + 0.15rem + 0.6rem);
+}
+.timeline .row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(var(--year-w) / 2 - 0.5px);
+  width: 1px;
+  background: var(--rule);
+}
+.timeline .row:first-child::before {
+  top: var(--node-y);
+}
+.timeline .row:last-child::before {
+  bottom: calc(100% - var(--node-y));
+}
+/* truncated lists let the line run off the bottom (faded by the page) */
+.timeline--open .row:last-child::before {
+  bottom: 0;
 }
 /* the title link is stretched over the whole row */
 .row-title::after {
@@ -225,8 +253,8 @@ h4 {
   text-decoration-color: var(--rule-strong);
 }
 .row-thumb {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--thumb);
+  height: var(--thumb);
   border-radius: 8px;
   overflow: hidden;
   background: var(--bg-2);
@@ -254,6 +282,16 @@ h4 {
 .row-aside {
   padding-top: 0.15rem;
   white-space: nowrap;
+}
+/* the year is the node: fixed width, centred on the line, page background
+   behind it so the line breaks around the digits. Positioned (no z-index) so
+   it paints over the line while the stretched title link still covers it. */
+.row-year {
+  position: relative;
+  display: inline-block;
+  width: var(--year-w);
+  text-align: center;
+  background: var(--bg);
 }
 
 /* Hover preview for project lists (ProjectList) --------------------- */

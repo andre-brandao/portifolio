@@ -57,8 +57,10 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
   </section>
 
   <h2 class="label">{t({ en: 'projects', pt: 'projetos' })}</h2>
-  <ProjectList projects={projects} locale={locale} />
-  <p class="more meta">
+  <div class="teaser">
+    <ProjectList projects={projects} locale={locale} open />
+  </div>
+  <p class="more more--timeline meta">
     <a class="link" href={projectsUrl}>
       {t({ en: 'All projects', pt: 'Todos os projetos' })} →
     </a>
@@ -86,5 +88,24 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
   }
   .more {
     margin-top: 0.9rem;
+  }
+  /* the truncated project timeline fades out into the "all projects" link */
+  .teaser {
+    position: relative;
+  }
+  .teaser::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 7rem;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events: none;
+    /* above the rows, below the floating hover preview (z-index 5) */
+    z-index: 2;
+  }
+  /* the link sits under the fading line on the right */
+  .more--timeline {
+    margin-top: 0.25rem;
+    text-align: right;
   }
 </style>
