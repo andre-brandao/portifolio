@@ -13,6 +13,8 @@ const projects = defineCollection({
       date: z.coerce.date(),
       cover: image().optional(),
       tags: z.array(z.string()),
+      // optional repository, shown as an icon button in the post header
+      github: z.url().optional(),
       // true = archived: kept in the repo, left out of the site
       draft: z.boolean().default(false),
     }),

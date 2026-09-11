@@ -1,0 +1,40 @@
+---
+title: 'GPUi Shell'
+description: 'Uma shell de desktop para Wayland escrita em Rust com GPUI, o framework de interface do Zed'
+date: 2026-07-31
+cover: "./cover.png"
+tags:
+  - Rust
+  - Wayland
+  - GPUI
+  - Hyprland
+  - Niri
+github: https://github.com/andre-brandao/gpui-shell
+---
+
+## Visão geral
+
+Uma shell de desktop para compositores Wayland, escrita em Rust sobre o [GPUI](https://github.com/zed-industries/zed), o framework de interface acelerado por GPU com que o editor Zed é construído. Um único binário substitui a pilha de ferramentas que um setup com tiling costuma precisar: barra de status, launcher, central de notificações, central de controle e menu de logout.
+
+![A barra](./bar.png)
+
+- **Barra**: workspaces, janela em foco, bandeja do sistema, relógio, layout de teclado, bateria, mídia, estatísticas do sistema
+- **Launcher**: apps, comandos de shell, workspaces, tema, papel de parede, busca na web
+- **Central de controle**: áudio, brilho, Wi-Fi, Bluetooth, energia, mídia, notificações com não perturbe
+- **OSD**: volume e brilho ao apertar as teclas
+
+![Demonstração](./showcase.gif)
+
+## Nota honesta
+
+O projeto começou como um experimento para ver até onde os modelos de IA atuais levariam uma base de código em Rust, linguagem que eu ainda estava aprendendo, e foi muito mais longe do que eu esperava. Boa parte do código foi gerada por IA, e ainda estou lixando arestas.
+
+## Experimente
+
+```bash
+nix run github:andre-brandao/gpui-shell
+```
+
+Documentação em [andre-brandao.github.io/gpui-shell](https://andre-brandao.github.io/gpui-shell/). Código no [GitHub](https://github.com/andre-brandao/gpui-shell).
+
+Obrigado ao [elwqnn](https://github.com/elwqnn), a primeira pessoa a contribuir com um projeto meu, e a todos na [página de contribuidores](https://github.com/andre-brandao/gpui-shell/graphs/contributors).

@@ -1,0 +1,40 @@
+---
+title: 'GPUi Shell'
+description: 'A Wayland desktop shell written in Rust with GPUI, the UI framework behind Zed'
+date: 2026-07-31
+cover: "./cover.png"
+tags:
+  - Rust
+  - Wayland
+  - GPUI
+  - Hyprland
+  - Niri
+github: https://github.com/andre-brandao/gpui-shell
+---
+
+## Overview
+
+A desktop shell for Wayland compositors, written in Rust on top of [GPUI](https://github.com/zed-industries/zed), the GPU-accelerated UI framework the Zed editor is built with. One binary replaces the usual pile of tools a tiling setup needs: status bar, launcher, notification center, control center and logout menu.
+
+![The bar](./bar.png)
+
+- **Bar**: workspaces, focused window, system tray, clock, keyboard layout, battery, media, system stats
+- **Launcher**: apps, shell commands, workspaces, theme, wallpaper, web search
+- **Control center**: audio, brightness, Wi-Fi, Bluetooth, power, media, notifications with do-not-disturb
+- **OSD**: volume and brightness on key press
+
+![Showcase](./showcase.gif)
+
+## Honesty note
+
+The project started as an experiment to see how far current AI models could take a Rust codebase I was learning in, and it went much further than I expected. A good part of the code was AI-generated, and I am still cleaning up rough edges.
+
+## Try it
+
+```bash
+nix run github:andre-brandao/gpui-shell
+```
+
+Documentation at [andre-brandao.github.io/gpui-shell](https://andre-brandao.github.io/gpui-shell/). Source on [GitHub](https://github.com/andre-brandao/gpui-shell).
+
+Thanks to [elwqnn](https://github.com/elwqnn), the first person to contribute to a project of mine, and to everyone on the [contributors page](https://github.com/andre-brandao/gpui-shell/graphs/contributors).
