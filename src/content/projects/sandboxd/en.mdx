@@ -1,0 +1,43 @@
+---
+title: 'Sandboxd'
+description: 'Disposable container sandboxes with a browser terminal, made for handing work to coding agents'
+date: 2026-09-01
+cover: "./cover.png"
+tags:
+  - Go
+  - Docker
+  - Nix
+  - OpenTofu
+  - Traefik
+github: https://github.com/developing-software/sandboxd
+---
+
+<details>
+    <summary>Early development</summary>
+    Sandboxd is new and changing fast. There are no releases yet; follow along on <a href="https://github.com/developing-software/sandboxd">GitHub</a>.
+</details>
+
+## Overview
+
+Sandboxd runs disposable container sandboxes on machines you manage, with a terminal and port forwarding in the browser. The idea is to hand a repository and a prompt to a coding agent, or spin up a notebook, an editor or a preview environment, and keep watching and controlling it from a web page, with no setup on the client side.
+
+Each sandbox is a single container running one command in a PTY. It goes away when the command exits, when it sits idle for too long, or when you delete it.
+
+- **sandboxd-api**: the control plane. Keeps sandbox state and serves the terminals and previews.
+- **sandboxd-worker**: a small daemon on each machine. It dials out to the control plane, so machines need no open inbound ports.
+- **Reference UI**: a client that shows what the API can do.
+
+Both daemons are static Go binaries. The repo ships Nix packages and NixOS modules, OpenTofu for infrastructure, Traefik for ingress, and a TypeScript SDK generated from the OpenAPI spec.
+
+## Try it
+
+```bash
+go run ./scripts/dev
+```
+
+Or build the daemons with Nix:
+
+```bash
+nix build .#api
+nix build .#worker
+```
