@@ -200,6 +200,7 @@ h4 {
   border-top: 1px solid var(--rule);
 }
 .row {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr auto;
   column-gap: 1rem;
@@ -207,14 +208,20 @@ h4 {
   padding: 0.9rem 0;
   border-bottom: 1px solid var(--rule);
 }
-a.row .row-title {
+/* the title link is stretched over the whole row */
+.row-title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.row .row-title {
   text-decoration: underline;
   text-decoration-color: transparent;
   text-underline-offset: 0.2em;
   text-decoration-thickness: 1px;
   transition: text-decoration-color 0.15s ease;
 }
-a.row:hover .row-title {
+.row:hover .row-title {
   text-decoration-color: var(--rule-strong);
 }
 .row-thumb {
