@@ -6,12 +6,18 @@
 
 interface Props {
   visited: readonly string[];
+  maxDiameter?: number;
 }
 
-const { visited } = Astro.props;
+const { visited, maxDiameter = 420 } = Astro.props;
 ---
 
-<div class="globe" data-globe data-visited={JSON.stringify(visited)}></div>
+<div
+  class="globe"
+  data-globe
+  data-visited={JSON.stringify(visited)}
+  data-max-diameter={maxDiameter}
+></div>
 
 <script>
   type Feature = { properties: { name: string } };
@@ -23,7 +29,8 @@ const { visited } = Astro.props;
 
     el.replaceChildren();
     const width = el.clientWidth;
-    const height = Math.min(width, 420);
+    const maxDiameter = Number(el.dataset.maxDiameter) || 420;
+    const height = Math.min(width, maxDiameter);
     const radius = height / 2 - 1;
 
     const projection = d3

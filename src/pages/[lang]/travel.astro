@@ -22,7 +22,7 @@ const title = t({ en: "Travel", pt: "Viagens" });
   </p>
 
   <div class="stage">
-    <Globe visited={VISITED_COUNTRIES} />
+    <Globe visited={VISITED_COUNTRIES} maxDiameter={640} />
   </div>
 
   <p class="meta">{VISITED_COUNTRIES.join(" · ")}</p>
@@ -30,6 +30,10 @@ const title = t({ en: "Travel", pt: "Viagens" });
 
 <style>
   .stage {
+    position: relative;
+    left: 50%;
+    width: min(46rem, calc(100vw - 2 * var(--gutter)));
     margin-block: 2.5rem 1rem;
+    transform: translateX(-50%);
   }
 </style>
