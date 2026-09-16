@@ -31,9 +31,6 @@ import ios from "./ios.svg";
 import linux from "./linux.svg";
 import iot from "./iot.svg";
 
-/** The component type Astro gives an imported .svg file. */
-export type Icon = typeof nix;
-
 /** Tags whose natural slug would be empty or misleading. */
 const SLUG_OVERRIDES: Record<string, string> = {
   "C#": "c-sharp",
