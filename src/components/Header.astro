@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import profile from "@/assets/profile.jpeg";
 import LocaleSwitch from "@/components/i18n/LocaleSelectSingle.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
+import { PROFILE } from "@/consts";
 import { type Lang } from "@/i18n";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
@@ -21,7 +22,7 @@ const locale = Astro.currentLocale as Lang;
         class="brand-photo"
         loading="eager"
       />
-      <span>André Brandão</span>
+      <span>{PROFILE.name}</span>
     </a>
 
     <div class="nav">

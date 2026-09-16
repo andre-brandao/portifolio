@@ -2,6 +2,11 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
+// A field written once per locale. The default locale is required so every
+// entry has something to fall back on (see useTranslations in src/i18n.ts);
+// the rest are optional. Adding a locale means adding a key here.
+const multilingual = () => z.object({ en: z.string(), pt: z.string().optional() });
+
 // One folder per project holding its images plus one file per locale:
 // projects/<slug>/en.mdx, projects/<slug>/pt.mdx. Entry id = "<slug>/<lang>".
 const projects = defineCollection({
@@ -28,7 +33,7 @@ const certifications = defineCollection({
   loader: glob({ pattern: '*/index.yaml', base: './src/content/certifications' }),
   schema: ({ image }) =>
     z.object({
-      title: z.object({ en: z.string(), pt: z.string().optional() }),
+      title: multilingual(),
       issuer: z.string(),
       image: image(),
       url: z.url(),
@@ -42,15 +47,15 @@ const work = defineCollection({
   schema: ({ image }) =>
     z.object({
       company: z.string(),
-      role: z.object({ en: z.string(), pt: z.string().optional() }),
-      period: z.object({ en: z.string(), pt: z.string().optional() }),
+      role: multilingual(),
+      period: multilingual(),
       logo: image().optional(),
       mark: z.string().optional(),
       url: z.url().optional(),
       projects: z
         .array(
           z.object({
-            label: z.object({ en: z.string(), pt: z.string().optional() }),
+            label: multilingual(),
             slug: z.string(),
           }),
         )

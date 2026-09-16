@@ -1,6 +1,6 @@
 ---
-import { LOCALES, useTranslations, type Lang } from '@/i18n'
-import { VISITED_COUNTRIES } from '@/consts'
+import { localeParams, useTranslations, type Lang } from '@/i18n'
+import { PROFILE, VISITED_COUNTRIES } from '@/consts'
 import Layout from '@/layouts/Base.astro'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { getCollection } from 'astro:content'
@@ -15,8 +15,7 @@ import Mail from '@/icons/mail.svg'
 const locale = Astro.currentLocale as Lang
 const t = useTranslations(locale)
 
-export const getStaticPaths = () =>
-  Object.keys(LOCALES).map((lang) => ({ params: { lang } }))
+export const getStaticPaths = localeParams
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft))
   .filter((post) => post.id.split('/')[1] === locale)
@@ -44,7 +43,7 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
     <p class="intro-links meta">
       <a
         class="intro-icon"
-        href="https://github.com/andre-brandao"
+        href={PROFILE.github}
         target="_blank"
         rel="noopener"
         aria-label="GitHub"
@@ -57,7 +56,7 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
       </a>
       <a
         class="intro-icon"
-        href="mailto:eu@andrebrandao.dev"
+        href={`mailto:${PROFILE.email}`}
         aria-label={t({ en: 'Email', pt: 'E-mail' })}
         title={t({ en: 'Email', pt: 'E-mail' })}
       >

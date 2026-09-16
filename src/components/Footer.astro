@@ -1,5 +1,6 @@
 ---
 import LocalesHomeList from "@/components/i18n/LocalesHomeList.astro";
+import { PROFILE } from "@/consts";
 import { useTranslations, type Lang } from "@/i18n";
 
 const locale = Astro.currentLocale as Lang;
@@ -9,11 +10,11 @@ const year = new Date().getFullYear();
 
 <footer class="wrap footer meta" transition:name="footer">
   <div class="footer-row">
-    <span>© {year} André Brandão</span>
+    <span>© {year} {PROFILE.name}</span>
     <nav class="footer-links" aria-label="Elsewhere">
-      <a class="link" href="https://github.com/andre-brandao" target="_blank" rel="noopener">GitHub</a>
-      <a class="link" href="https://www.linkedin.com/in/andr%C3%A9-brand%C3%A3o-719684239/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="link" href="mailto:eu@andrebrandao.dev">{t({ en: "Email", pt: "Email" })}</a>
+      <a class="link" href={PROFILE.github} target="_blank" rel="noopener">GitHub</a>
+      <a class="link" href={PROFILE.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <a class="link" href={`mailto:${PROFILE.email}`}>{t({ en: "Email", pt: "Email" })}</a>
       <a class="link" href={`/${locale}/rss.xml`}>RSS</a>
     </nav>
   </div>

@@ -1,15 +1,16 @@
 ---
-import { LOCALES, useTranslations, type Lang } from '@/i18n'
+import { localeParams, useTranslations, type Lang } from '@/i18n'
+import { PROFILE } from '@/consts'
 import Layout from '@/layouts/Base.astro'
 import { getCollection } from 'astro:content'
 
+import PageHeadline from '@/components/PageHeadline.astro'
 import ProjectList from '@/components/ProjectList.astro'
 
 const locale = Astro.currentLocale as Lang
 const t = useTranslations(locale)
 
-export const getStaticPaths = () =>
-  Object.keys(LOCALES).map((lang) => ({ params: { lang } }))
+export const getStaticPaths = localeParams
 
 const posts = (await getCollection('projects', ({ data }) => !data.draft))
   .filter((post) => post.id.split('/')[1] === locale)
@@ -27,12 +28,7 @@ const title = t({ en: 'Projects', pt: 'Projetos' })
       en: 'Things I have built over the years. Plenty more that I contributed to on my ',
       pt: 'Coisas que construí ao longo dos anos. Muito mais em que contribuí está no meu ',
     })}
-    <a
-      class="link"
-      href="https://github.com/andre-brandao"
-      target="_blank"
-      rel="noopener"
-    >
+    <a class="link" href={PROFILE.github} target="_blank" rel="noopener">
       GitHub
     </a>
     .

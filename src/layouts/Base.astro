@@ -7,7 +7,7 @@ import LocaleSuggest from '@/components/i18n/LocaleSuggest.astro'
 
 import { ClientRouter } from 'astro:transitions'
 
-import { SITE_TITLE, SITE_DESCRIPTION, X_ACCOUNT } from '@/consts'
+import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts'
 import { useTranslations, LOCALES, getLocalePaths, type Lang } from '@/i18n'
 import '@/styles/global.css'
 
@@ -80,7 +80,6 @@ const fontHref =
     <meta property="og:url" content={Astro.url} />
     <meta property="og:locale" content={LOCALES[locale].lang || locale} />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content={t(X_ACCOUNT)} />
 
     <!-- Font: JetBrains Mono, loaded without blocking first paint -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

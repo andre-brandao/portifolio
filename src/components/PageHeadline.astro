@@ -2,14 +2,16 @@
 // Heading block for simple pages: title plus an optional intro in the slot.
 
 interface Props {
-  title: string;
+  title: string
 }
 
-const { title } = Astro.props;
+const { title } = Astro.props
 ---
 
 <header class="page-head">
-  <h1 class="title" transition:name={title}>{title}</h1>
+  <h1 class="title" transition:name={title}>
+    {title}
+  </h1>
   <slot />
 </header>
 
