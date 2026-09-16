@@ -27,9 +27,15 @@ const certifications = (await getCollection("certifications")).sort(
           target="_blank"
           rel="noopener noreferrer"
           title={`${t(data.title)} · ${data.issuer}`}
-          aria-label={t(data.title)}
         >
-          <Image src={data.image} width={192} height={192} format="webp" alt="" loading="lazy" />
+          <Image
+            src={data.image}
+            width={192}
+            height={192}
+            format="webp"
+            alt={`${t(data.title)} · ${data.issuer}`}
+            loading="lazy"
+          />
         </a>
       </li>
     ))
