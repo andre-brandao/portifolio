@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import profile from "@/assets/profile.jpeg";
 import LocaleSwitch from "@/components/i18n/LocaleSelectSingle.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import { type Lang } from "@/i18n";
@@ -12,7 +13,7 @@ const locale = Astro.currentLocale as Lang;
   <div class="wrap header-inner">
     <a href={getRelativeLocaleUrl(locale, "/")} class="brand">
       <Image
-        src="/profile.jpeg"
+        src={profile}
         width={56}
         height={56}
         format="webp"

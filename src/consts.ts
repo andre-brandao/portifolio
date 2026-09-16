@@ -10,7 +10,7 @@ export const SITE_DESCRIPTION: string | Multilingual = {
   pt: "Portfólio André Brandão",
 };
 
-export const X_ACCOUNT: string | Multilingual = "@abc";
+export const X_ACCOUNT: string | Multilingual = "@";
 
 export const NOT_TRANSLATED_CAUTION: string | Multilingual = {
   en: "This page is not available in your language.",
