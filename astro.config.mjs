@@ -9,8 +9,11 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      // error pages have no business in a sitemap
-      filter: (page) => !page.includes("/404"),
+      // Error pages have no business in a sitemap. The bare "/" is left out
+      // too: it is a JS redirect stub, and the i18n grouping below would file
+      // it under `en` next to /en/, emitting two conflicting hreflang="en"
+      // alternates for the same set, which makes Google discard them all.
+      filter: (page) => !page.includes("/404") && new URL(page).pathname !== "/",
       // pairs /en/<path> with /pt/<path> as xhtml:link alternates, matching
       // the hreflang tags Base.astro already puts in each page head
       i18n: {
