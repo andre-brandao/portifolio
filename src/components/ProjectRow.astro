@@ -23,9 +23,22 @@ interface Props {
   locale?: string;
   /** URLs of larger images ProjectList cycles through while hovering */
   previews?: string[];
+  /** Load the thumbnail up front, for rows that start above the fold */
+  eager?: boolean;
 }
 
-const { title, desc, href, img, year, github, tags = [], locale = "en", previews = [] } = Astro.props;
+const {
+  title,
+  desc,
+  href,
+  img,
+  year,
+  github,
+  tags = [],
+  locale = "en",
+  previews = [],
+  eager = false,
+} = Astro.props;
 ---
 
 <li class="row" data-previews={previews.length ? JSON.stringify(previews) : undefined}>
@@ -39,6 +52,7 @@ const { title, desc, href, img, year, github, tags = [], locale = "en", previews
           format="webp"
           alt=""
           transition:name={title + "image"}
+          loading={eager ? "eager" : "lazy"}
         />
       )
     }

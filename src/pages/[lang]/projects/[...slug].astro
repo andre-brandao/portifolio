@@ -65,6 +65,8 @@ const date = post.data.date.toLocaleDateString(lang, {
         alt=""
         class="post-cover"
         transition:name={title + "image"}
+        loading="eager"
+        fetchpriority="high"
       />
     )
   }

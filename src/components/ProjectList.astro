@@ -49,8 +49,8 @@ const rows = await Promise.all(
 
 <div class="peek-list" data-peek-list>
   <ol class:list={['rows', 'timeline', open && 'timeline--open']}>
-    {rows.map((row) => (
-      <ProjectRow {...row} />
+    {rows.map((row, i) => (
+      <ProjectRow {...row} eager={i < 3} />
     ))}
   </ol>
   <div class="peek" aria-hidden="true">
