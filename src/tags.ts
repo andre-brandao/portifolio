@@ -1,10 +1,12 @@
 // Shared helpers for project tags: URL slugs, tag page links and the small
 // set of tags that render as a brand icon instead of a text badge.
 //
-// Icons live in src/icons as plain SVG files with `fill="currentColor"`. Most
-// come from simpleicons.org (CC0); c-sharp and aws are monochrome conversions
-// of the Wikimedia Commons logos; puc-mg is a hand-drawn academic cap. To add
-// one, drop the file there and map its slug below.
+// Icons live in src/icons as plain SVG files with `fill="currentColor"` and no
+// width/height, so each usage sizes them. Most come from simpleicons.org (CC0);
+// c-sharp and aws are monochrome conversions of the Wikimedia Commons logos;
+// puc-mg is a hand-drawn academic cap. To add one, drop the file there and map
+// its slug below. The folder also holds plain UI icons (github, mail, sun,
+// moon) that are imported directly where they are used.
 
 import nix from "@/icons/nix.svg";
 import proxmox from "@/icons/proxmox.svg";
