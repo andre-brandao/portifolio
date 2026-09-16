@@ -14,9 +14,11 @@ interface Props {
   locale: string
   /** Let the line run past the last node (for a truncated list that fades out) */
   open?: boolean
+  /** Load every thumbnail up front, for short lists like the home page teaser */
+  eager?: boolean
 }
 
-const { projects, locale, open = false } = Astro.props
+const { projects, locale, open = false, eager = false } = Astro.props
 
 const rows = await Promise.all(
   projects.map(async (post) => {
@@ -50,7 +52,7 @@ const rows = await Promise.all(
 <div class="peek-list" data-peek-list>
   <ol class:list={['rows', 'timeline', open && 'timeline--open']}>
     {rows.map((row, i) => (
-      <ProjectRow {...row} eager={i < 3} />
+      <ProjectRow {...row} eager={eager || i < 3} />
     ))}
   </ol>
   <div class="peek" aria-hidden="true">

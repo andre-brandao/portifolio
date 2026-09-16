@@ -71,7 +71,7 @@ const travelUrl = getRelativeLocaleUrl(locale, 'travel')
 
   <h2 class="label">{t({ en: 'projects', pt: 'projetos' })}</h2>
   <div class="teaser">
-    <ProjectList projects={projects} locale={locale} open />
+    <ProjectList projects={projects} locale={locale} open eager />
   </div>
   <p class="more more--timeline meta">
     <a class="link" href={projectsUrl}>
